@@ -6,6 +6,7 @@ const int N = 5;
 const std::string StrType[] = { "0","1","2" };
 
 const int SpinsInPlaquet = 4;
+const int MaxPlaquetsPerInteraction = 4;
 const int OrtsAmount = 3;
 
 const int indexOfInsideJOperator = 2;

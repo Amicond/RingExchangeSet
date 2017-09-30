@@ -292,7 +292,7 @@ void WFTransformer::act(WaveFunction& inWF, WaveFunction& outWF, int interNumber
 		outWF.collect(tempWF2);
 }
 
-void actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int interNumber, int type, int power)
+void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int interNumber, int type, int power)
 {
 	State currentInputState;//const state from 
 	//temp
@@ -301,13 +301,17 @@ void actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int interNumber, int
 	State tempst(nodesAmout); //intermediate state
 	std::vector<State> tempWF, tempWF2; //intermediate wavfunctions
 	
+	int plaquetNumber[MaxPlaquetsPerInteraction];
+	
 
-	for (unsigned int inSt = 0; inSt < inWF.getEigenstatesAmount(); inSt++)
+
+	for (auto &interElem : extInteractions[interNumber])//enumerate all terms of current interaction
 	{
-		currentInputState=inWF.getEigenstateByNumber(inSt);
-		row
 
-
+		for (unsigned int inSt = 0; inSt < inWF.getEigenstatesAmount(); inSt++)
+		{
+			currentInputState = inWF.getEigenstateByNumber(inSt);
+		}
 	}
 	//Сортируем и собираем выходной вектор
 	outWF.clear(inWF.getNodesAmount());

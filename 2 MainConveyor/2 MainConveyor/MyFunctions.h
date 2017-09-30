@@ -22,6 +22,13 @@ struct inter
 	char Jtype; // 0-J1, 1-J2, 2-(J2-J1)
 };
 
+struct extendedInter
+{
+	char plaquetsAmount;
+	char n[MaxPlaquetsPerInteraction];
+	char Jtype;
+};
+
 
 struct edge //для хранения координат ребер
 {

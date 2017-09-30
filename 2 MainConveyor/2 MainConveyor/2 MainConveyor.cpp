@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
 	std::stringstream sscanner;
 
 	int type, order, subOrder; //Тип маршрутов
-	int routesAmount[N + 1][3];
+	int routesAmount[N + 1][RouteTypeAmount];
 	std::vector<int*> nodeSets;
 	int *termOrder=NULL;
 	int edgeNum;//число ребер в маршруте

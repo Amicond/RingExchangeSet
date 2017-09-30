@@ -101,6 +101,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Andrew\Practice\!!!_5 RingExchange set\!_Code\SharedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +134,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Andrew\Practice\!!!_5 RingExchange set\!_Code\SharedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,17 +147,51 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\SharedFiles\configReader.h" />
+    <ClInclude Include="..\..\SharedFiles\Edge.h" />
+    <ClInclude Include="..\..\SharedFiles\fileNamePrinter.h" />
+    <ClInclude Include="..\..\SharedFiles\globalConsts.h" />
+    <ClInclude Include="..\..\SharedFiles\LadderOperator.h" />
+    <ClInclude Include="..\..\SharedFiles\matrixNodes.h" />
+    <ClInclude Include="..\..\SharedFiles\Point.h" />
+    <ClInclude Include="..\..\SharedFiles\Route.h" />
+    <ClInclude Include="..\..\SharedFiles\Term.h" />
+    <ClInclude Include="Consts.h" />
+    <ClInclude Include="JFactors.h" />
+    <ClInclude Include="MatrixOfResults.h" />
+    <ClInclude Include="MyFunctions.h" />
+    <ClInclude Include="Operators.h" />
+    <ClInclude Include="Results.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="waveFunction.h" />
+    <ClInclude Include="WFTransformer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\SharedFiles\configReader.cpp" />
+    <ClCompile Include="..\..\SharedFiles\Edge.cpp" />
+    <ClCompile Include="..\..\SharedFiles\fileNamePrinter.cpp" />
+    <ClCompile Include="..\..\SharedFiles\LadderOperator.cpp" />
+    <ClCompile Include="..\..\SharedFiles\matrixNodes.cpp" />
+    <ClCompile Include="..\..\SharedFiles\Point.cpp" />
+    <ClCompile Include="..\..\SharedFiles\Route.cpp" />
+    <ClCompile Include="..\..\SharedFiles\Term.cpp" />
     <ClCompile Include="2 MainConveyor.cpp" />
+    <ClCompile Include="JFactors.cpp" />
+    <ClCompile Include="MatrixOfResults.cpp" />
+    <ClCompile Include="MyFunctions.cpp" />
+    <ClCompile Include="Operators.cpp" />
+    <ClCompile Include="Results.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="waveFunction.cpp" />
+    <ClCompile Include="WFTransformer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
