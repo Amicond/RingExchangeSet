@@ -295,22 +295,63 @@ void WFTransformer::act(WaveFunction& inWF, WaveFunction& outWF, int interNumber
 void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int interNumber, int type, int power)
 {
 	State currentInputState;//const state from 
-	//temp
-	int nodesAmout = inWF.getNodesAmount();
-	//temp end
-	State tempst(nodesAmout); //intermediate state
-	std::vector<State> tempWF, tempWF2; //intermediate wavfunctions
-	
+		
 	int plaquetNumber[MaxPlaquetsPerInteraction];
 	
-
-
 	for (auto &interElem : extInteractions[interNumber])//enumerate all terms of current interaction
 	{
+		int operatorType;//Pair -0, Quadro -1;
+		int n1, n2, n3, n4;
+		int newN1, newN2;
+		int row;
+		State tmpState;
+		switch (interElem.plaquetsAmount)
+		{
+		case 2:
+			operatorType = 0;
+			break;
+		case 4: 
+			operatorType = 0;
+			break;
+		}
 
 		for (unsigned int inSt = 0; inSt < inWF.getEigenstatesAmount(); inSt++)
 		{
-			currentInputState = inWF.getEigenstateByNumber(inSt);
+			if (operatorType == 0)
+			{
+				//current state to act
+				currentInputState = inWF.getEigenstateByNumber(inSt);
+				
+				n1 = interElem.n[0]; //number of the array's cell with the first state to change
+				n2 = interElem.n[1]; //number of the array's cell with the second state to change
+				
+				//get the row corresponding to current pair of states
+				row = pairOperators::pairStatesToRow(currentInputState.getStateByNumber(n1), currentInputState.getStateByNumber(n2));
+				
+				//iterate over all transitions
+				for (auto &curElem:pairOperator.opMatrixNonZero[interElem.operatorType][row])
+				{
+					//copy old parameters
+					tmpState.copyStates(currentInputState);
+					tmpState.copyPowers(currentInputState);
+					//increase J-factor
+					tmpState.incPower(interElem.Jtype);
+					//get new states
+					pairOperators::columnToPairStates(curElem.first, newN1, newN2);
+					//set new states
+					tmpState.setStateByNumber(n1, newN1);
+					tmpState.setStateByNumber(n2, newN2);
+					//change factor
+					tmpState.multiplicateFactor(curElem.second);
+					outWF.addEigenState(tmpState);
+				}
+			}
+
+			//quatro-operator case
+			if (operatorType == 1)
+			{
+
+			}
 		}
 	}
 	//Сортируем и собираем выходной вектор

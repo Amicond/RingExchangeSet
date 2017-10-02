@@ -9,6 +9,7 @@ const int SpinsInPlaquet = 4;
 const int MaxPlaquetsPerInteraction = 4;
 const int OrtsAmount = 3;
 
+
 const int indexOfInsideJOperator = 2;
 
 const int DiffStates = 16; //количкество различных собственных состояний, равно размеру матриц

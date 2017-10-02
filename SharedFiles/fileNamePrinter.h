@@ -8,6 +8,7 @@ public:
 	//general input 
 	static std::string fileNamePrinter::getPathToConfigFile();
 	static std::string fileNamePrinter::gePathToMatrixes(std::string matrixPrefix, int vertexNum);
+	static std::string fileNamePrinter::gePathToPairMatrixes(std::string matrixName);
 	static std::string fileNamePrinter::gePathToInsideMatrix();
 	static std::string fileNamePrinter::gePathToEnergies();
 	static std::string fileNamePrinter::getPathToPerturbationTerms(int order);

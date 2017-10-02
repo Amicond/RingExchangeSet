@@ -161,6 +161,7 @@
     <ClInclude Include="MatrixOfResults.h" />
     <ClInclude Include="MyFunctions.h" />
     <ClInclude Include="Operators.h" />
+    <ClInclude Include="pairOperators.h" />
     <ClInclude Include="Results.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="MatrixOfResults.cpp" />
     <ClCompile Include="MyFunctions.cpp" />
     <ClCompile Include="Operators.cpp" />
+    <ClCompile Include="pairOperators.cpp" />
     <ClCompile Include="Results.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -19,6 +19,14 @@ std::string fileNamePrinter::gePathToMatrixes(std::string matrixPrefix,int verte
 	ostr << DirForMatrixInput << MatrixVersionPrefix << matrixPrefix << vertexNum<< ".txt";
 	return ostr.str();
 }
+
+std::string fileNamePrinter::gePathToPairMatrixes(std::string matrixName)
+{
+	std::ostringstream ostr;
+	ostr << DirForMatrixInput << MatrixVersionPrefix << matrixName << ".txt";
+	return ostr.str();
+}
+
 std::string fileNamePrinter::gePathToInsideMatrix()
 {
 	std::ostringstream ostr;

@@ -3,15 +3,18 @@
 #include "stdafx.h"
 #include "waveFunction.h"
 #include "Operators.h"
+#include "pairOperators.h"
 #include "MyFunctions.h"
 class WFTransformer
 {
 	
 	std::vector<inter> interactions[N];
+	std::vector<extendedInter> extInteractions[N];
 
 public:
 
 	Operators vOperator;
+	pairOperators pairOperator;
 	WFTransformer();
 	~WFTransformer();
 	

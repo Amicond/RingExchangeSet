@@ -24,6 +24,7 @@ struct inter
 
 struct extendedInter
 {
+	int operatorType; //should be consitent with extendedOperator consts
 	char plaquetsAmount;
 	char n[MaxPlaquetsPerInteraction];
 	char Jtype;
