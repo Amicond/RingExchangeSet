@@ -150,6 +150,11 @@ void WFTransformer::returnV(int edgeNum, int nodeNumsOfEdges[][2], std::vector<e
 	}//ок
 }
 
+void WFTransformer::returnPairVOperator(int operatorNum,int nodeNumsOfEdge,std::vector<RouteOperator> operators)
+{
+	return;
+}
+
 void WFTransformer::setInteractions(int nodeNumsOfEdges[][2],std::vector<edge> edges)
 {
 	int edgeAmount = edges.size();
@@ -294,9 +299,13 @@ void WFTransformer::act(WaveFunction& inWF, WaveFunction& outWF, int interNumber
 
 void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int interNumber, int type, int power)
 {
+	int nodesAmout = inWF.getNodesAmount();
+	outWF.setNodesAmount(nodesAmout);
+
 	State currentInputState;//const state from 
-		
-	int plaquetNumber[MaxPlaquetsPerInteraction];
+	double curEnergieOfState;
+	State tmpState;
+	//int plaquetNumber[MaxPlaquetsPerInteraction];
 	
 	for (auto &interElem : extInteractions[interNumber])//enumerate all terms of current interaction
 	{
@@ -304,7 +313,7 @@ void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int i
 		int n1, n2, n3, n4;
 		int newN1, newN2;
 		int row;
-		State tmpState;
+		
 		switch (interElem.plaquetsAmount)
 		{
 		case 2:
@@ -331,18 +340,31 @@ void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int i
 				//iterate over all transitions
 				for (auto &curElem:pairOperator.opMatrixNonZero[interElem.operatorType][row])
 				{
+					
 					//copy old parameters
 					tmpState.copyStates(currentInputState);
 					tmpState.copyPowers(currentInputState);
-					//increase J-factor
-					tmpState.incPower(interElem.Jtype);
 					//get new states
 					pairOperators::columnToPairStates(curElem.first, newN1, newN2);
 					//set new states
 					tmpState.setStateByNumber(n1, newN1);
 					tmpState.setStateByNumber(n2, newN2);
+
+					curEnergieOfState = tmpState.getEnergie(pairOperator.getEnergiesOfStates());
+					
+					
+					//increase J-factor
+					tmpState.incPower(interElem.Jtype);
+					
 					//change factor
 					tmpState.multiplicateFactor(curElem.second);
+
+					switch (type)
+					{
+					default:
+						break;
+					}
+					
 					outWF.addEigenState(tmpState);
 				}
 			}
@@ -354,10 +376,10 @@ void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int i
 			}
 		}
 	}
-	//Сортируем и собираем выходной вектор
-	outWF.clear(inWF.getNodesAmount());
-	if (tempWF2.size())
-		outWF.collect(tempWF2);
+	////Сортируем и собираем выходной вектор
+	//outWF.clear(inWF.getNodesAmount());
+	//if (tempWF2.size())
+	//	outWF.collect(tempWF2);
 
 }
 

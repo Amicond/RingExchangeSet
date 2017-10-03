@@ -45,8 +45,17 @@ int terminateWithError(bool silentMode,int code,std::string message,std::ofstrea
 
 int main(int argc, char* argv[])
 {
+
+	//temp section
+	//RouteOperator r1(0);
+	//r1.parse("0,{{0,0}2},{{1,0}2}");
+
+	//end tempsection
 	
 	//public for all threads:
+
+	
+
 	std::ofstream logfile(fileNameLog, std::ios::out);
 
 	std::ifstream terms;//слагаемые ряда теории возмущений
@@ -65,16 +74,11 @@ int main(int argc, char* argv[])
 	//check:
 	configReader confReader;
 	
-	
-
-	
-	
-	
-	
-
 	std::stringstream fname;
 	std::string fileNameString;
 	std::stringstream sscanner;
+
+	
 
 	int type, order, subOrder; //Тип маршрутов
 	int routesAmount[N + 1][RouteTypeAmount];
@@ -89,322 +93,328 @@ int main(int argc, char* argv[])
 	
 	WFTransformer mainTransformer;
 
-	std::string outString;
-	std::string strType;
-	std::string s; //reading from file
+	//cooment all temp
 
-	int *curOperatorSet;
-	State init;//в будущем для четния
-	WaveFunction *wfIn, *wfOut1, *wfOut2;
-	WaveFunction wfTemp1, wfTemp2;
+	//std::string outString;
+	//std::string strType;
+	//std::string s; //reading from file
 
-	int vecAmount;
-	int *procedureOrder;
-	int *powerOrder;
+	//int *curOperatorSet;
+	//State init;//в будущем для четния
+	//WaveFunction *wfIn, *wfOut1, *wfOut2;
+	//WaveFunction wfTemp1, wfTemp2;
+
+	//int vecAmount;
+	//int *procedureOrder;
+	//int *powerOrder;
+	//
+	//MatrixOfResults fullMatrix;
+	//int realSize;
+
+	//int testMode;
+	////Read num of first and the last route.
+	//confReader.openConfigFile(fileNameRouteNums);
+	//type = confReader.readIntWithHeader();
+	//order = confReader.readNextInt();
+	//subOrder = confReader.readNextInt();
+	//startRouteNum = confReader.readIntWithHeader();
+	//finRouteNum = confReader.readNextInt();
+	//testMode = confReader.readIntWithHeader();
+	//confReader.closeConfig();
+
 	
-	MatrixOfResults fullMatrix;
-	int realSize;
 
-	int testMode;
-	//Read num of first and the last route.
-	confReader.openConfigFile(fileNameRouteNums);
-	type = confReader.readIntWithHeader();
-	order = confReader.readNextInt();
-	subOrder = confReader.readNextInt();
-	startRouteNum = confReader.readIntWithHeader();
-	finRouteNum = confReader.readNextInt();
-	testMode = confReader.readIntWithHeader();
-	confReader.closeConfig();
+	////test 
+	//if (testMode)
+	//{
+	//	std::cout << "Type: " << type << "\n";
+	//	std::cout << "Route nums: " << startRouteNum << " " << finRouteNum;
+	//}
+	////end test
+	//
+	//confReader.openConfigFile(fileNamePrinter::getPathToConfigFile());
+	//
+	/////Error checking
+	//if (3 * (N)*(int)pow((double)2, N - 1)>Namount)
+	//	terminateWithError(silentMode, 1, "Change Namount", logfile);
+	////Test input data
+	//if (order > N)
+	//	terminateWithError(silentMode, 3, "\nWrong Const or Config file\n", logfile);
+	////Type check
+	//if(type>=0&&type<3)
+ //       strType=StrType[type];
+	//else
+	//	terminateWithError(silentMode, 2, "Wrong string type!", logfile);
 
-	//test 
-	if (testMode)
-	{
-		std::cout << "Type: " << type << "\n";
-		std::cout << "Route nums: " << startRouteNum << " " << finRouteNum;
-	}
-	//end test
+	////Set params for Jfactors
+	//JFactors::setOrder(order);
+	////reading of route amounts of each type
+	//confReader.readRouteAmounts(routesAmount, 1, N);
+	//confReader.closeConfig();
+
+	//if (testMode)
+	//{
+	//	std::cout << "1.2 RoutesAmount: "<<routesAmount[1][2] << "\n";
+	//}
+
+	////Init of arrays for numbers of procedure, and powers of denominators in perturbation series
+	//procedureOrder = new int[order];
+	//powerOrder = new int[order];
+
+
 	
-	confReader.openConfigFile(fileNamePrinter::getPathToConfigFile());
-	
-	///Error checking
-	if (3 * (N)*(int)pow((double)2, N - 1)>Namount)
-		terminateWithError(silentMode, 1, "Change Namount", logfile);
-	//Test input data
-	if (order > N)
-		terminateWithError(silentMode, 3, "\nWrong Const or Config file\n", logfile);
-	//Type check
-	if(type>=0&&type<3)
-        strType=StrType[type];
-	else
-		terminateWithError(silentMode, 2, "Wrong string type!", logfile);
 
-	//Set params for Jfactors
-	JFactors::setOrder(order);
-	//reading of route amounts of each type
-	confReader.readRouteAmounts(routesAmount, 1, N);
-	confReader.closeConfig();
+	////считываем все слагаемые для данного порядка
+	////отдельно для первого порядка
+	//if (order == 1)
+	//{
+	//	termOrder = new int[1];
+	//	termOrder[0] = -1;
+	//	nodeSets.push_back(termOrder);
+	//}
+	//else//для всех остальных
+	//{
+	//	//std::string ttt = fileNamePrinter::getPathToPerturbationTerms(order);
+	//	terms.open(fileNamePrinter::getPathToPerturbationTerms(order), std::ios::in);
+	//	while (!terms.eof())
+	//	{
+	//		getline(terms, s);
+	//		sscanner.str(s);
+	//		if (s.length() > 0)
+	//		{
+	//			termOrder = new int[order - 1];
+	//			for (int i = 0; i < order - 1; i++)
+	//				sscanner >> termOrder[i];
+	//			nodeSets.push_back(termOrder);
+	//		}
+	//	}
+	//}
+	//
+	//mainTransformer.vOperator.readMatrixAndEnergie();
 
-	if (testMode)
-	{
-		std::cout << "1.2 RoutesAmount: "<<routesAmount[1][2] << "\n";
-	}
+	//if (testMode)
+	//{
+	//	std::cout << "E0 for 2 nodes: " << mainTransformer.vOperator.getE0(2) << "\n";
+	//}
+	//	
+	////Initializing input and output arrays of WF
+	//vecAmount = 3 * (order + 1)*(int)pow((double)2, order);
+	//wfIn = new WaveFunction[vecAmount];
+	//wfOut1 = new WaveFunction[vecAmount];
+	//wfOut2 = new WaveFunction[vecAmount];
+	//
+	////Инициализируем матрицу результатов
+	//fullMatrix.clearAndSetSize(vecAmount);
+	////Конец инициализации;
 
-	//Init of arrays for numbers of procedure, and powers of denominators in perturbation series
-	procedureOrder = new int[order];
-	powerOrder = new int[order];
+	//curOperatorSet=new int[order];
+	//procedureOrder=new int[order];
+	//powerOrder=new int[order];
+	//
+	//for(int i=subOrder;i<=subOrder;i++)//Перебираем все возможные длины маршрутов
+	//{
+	//	for(int j=1;j<=routesAmount[subOrder][type];j++)//перебираем все доступные маршруты при данной длине
+	//	{
+	//		//Блок управления различными копиями, позволяет запускать только часть маршрутов
+	//		if(j>finRouteNum)//если все вычислили, то выходим.
+	//			exit(0);
+	//		if(j<startRouteNum)
+	//			continue;//пропускаем если не подходит по заданным номерам
+	//		//Конец Блока управления различными копиями
 
+	//		
+	//		
+	//		operatorsset.open(fileNamePrinter::getPathToRouteFile(order,i,j,strType), std::ios::in);
+	//		getline(operatorsset,s);
+	//		std::istringstream route;
+	//		route.str(s);
+	//		
+	//		operatorsset >> edgeNum >> nodeNum;
+	//		//если это не случай внутреннего оператора, то считываем ребра
+	//		if (edgeNum > 0)
+	//		{
+	//			read_Route(r, route);
+	//			eval_cur_route(r, order, i, edges, nodeNumsOfEdges, nodes, edgeNum);
 
-	//считываем все слагаемые для данного порядка
-	//отдельно для первого порядка
-	if (order == 1)
-	{
-		termOrder = new int[1];
-		termOrder[0] = -1;
-		nodeSets.push_back(termOrder);
-	}
-	else//для всех остальных
-	{
-		//std::string ttt = fileNamePrinter::getPathToPerturbationTerms(order);
-		terms.open(fileNamePrinter::getPathToPerturbationTerms(order), std::ios::in);
-		while (!terms.eof())
-		{
-			getline(terms, s);
-			sscanner.str(s);
-			if (s.length() > 0)
-			{
-				termOrder = new int[order - 1];
-				for (int i = 0; i < order - 1; i++)
-					sscanner >> termOrder[i];
-				nodeSets.push_back(termOrder);
-			}
-		}
-	}
-	
-	mainTransformer.vOperator.readMatrixAndEnergie();
+	//			//Edges amount test
+	//			if (edges.size() != edgeNum)
+	//				terminateWithError(silentMode, 4, "Edges wrong", logfile);
+	//			mainTransformer.clear();
+	//			mainTransformer.setInteractions(nodeNumsOfEdges, edges);
+	//			
+	//		}
 
-	if (testMode)
-	{
-		std::cout << "E0 for 2 nodes: " << mainTransformer.vOperator.getE0(2) << "\n";
-	}
-		
-	//Initializing input and output arrays of WF
-	vecAmount = 3 * (order + 1)*(int)pow((double)2, order);
-	wfIn = new WaveFunction[vecAmount];
-	wfOut1 = new WaveFunction[vecAmount];
-	wfOut2 = new WaveFunction[vecAmount];
-	
-	//Инициализируем матрицу результатов
-	fullMatrix.clearAndSetSize(vecAmount);
-	//Конец инициализации;
+	//		//заполняем спины каждый раз
+	//		std::ifstream inStates(fileNamePrinter::getPathToSpinsOrder(nodeNum), std::ios::in);
+	//		
+	//		int curState;
 
-	curOperatorSet=new int[order];
-	procedureOrder=new int[order];
-	powerOrder=new int[order];
-	
-	for(int i=subOrder;i<=subOrder;i++)//Перебираем все возможные длины маршрутов
-	{
-		for(int j=1;j<=routesAmount[subOrder][type];j++)//перебираем все доступные маршруты при данной длине
-		{
-			//Блок управления различными копиями, позволяет запускать только часть маршрутов
-			if(j>finRouteNum)//если все вычислили, то выходим.
-				exit(0);
-			if(j<startRouteNum)
-				continue;//пропускаем если не подходит по заданным номерам
-			//Конец Блока управления различными копиями
+	//		for (int i = 0; i<vecAmount; i++)
+	//		{
+	//			wfIn[i].clear(nodeNum);
+	//			init.clear();
+	//			for (int j = 0; j<nodeNum; j++) 
+	//			{
+	//				inStates >> curState; 
+	//				init.addClusterState(curState);
+	//			}
+	//			wfIn[i].addEigenState(init);
+	//		}
+	//		inStates.close();
+	//		//конец заполнения спинов
 
-			
-			
-			operatorsset.open(fileNamePrinter::getPathToRouteFile(order,i,j,strType), std::ios::in);
-			getline(operatorsset,s);
-			std::istringstream route;
-			route.str(s);
-			
-			operatorsset >> edgeNum >> nodeNum;
-			//если это не случай внутреннего оператора, то считываем ребра
-			if (edgeNum > 0)
-			{
-				read_Route(r, route);
-				eval_cur_route(r, order, i, edges, nodeNumsOfEdges, nodes, edgeNum);
+	//		
 
-				//Edges amount test
-				if (edges.size() != edgeNum)
-					terminateWithError(silentMode, 4, "Edges wrong", logfile);
-				mainTransformer.clear();
-				mainTransformer.setInteractions(nodeNumsOfEdges, edges);
-				
-			}
+	//		getline(operatorsset,s);
+	//		realSize=3*nodeNum*(int)pow((double)2,nodeNum-1);
+	//		
+	//		fullMatrix.clearAndSetSize(realSize);
+	//		 
+	//		int zz=0;		
+	//		while(!operatorsset.eof())
+	//		{
+	//			getline(operatorsset,s);
 
-			//заполняем спины каждый раз
-			std::ifstream inStates(fileNamePrinter::getPathToSpinsOrder(nodeNum), std::ios::in);
-			
-			int curState;
+	//			if(s.length()>0)
+	//			{
 
-			for (int i = 0; i<vecAmount; i++)
-			{
-				wfIn[i].clear(nodeNum);
-				init.clear();
-				for (int j = 0; j<nodeNum; j++) 
-				{
-					inStates >> curState; 
-					init.addClusterState(curState);
-				}
-				wfIn[i].addEigenState(init);
-			}
-			inStates.close();
-			//конец заполнения спинов
+	//				std::cout<<order<<" "<<i<<" "<<j<<" zz="<<zz<<"\n";
 
-			
+	//				zz++;
 
-			getline(operatorsset,s);
-			realSize=3*nodeNum*(int)pow((double)2,nodeNum-1);
-			
-			fullMatrix.clearAndSetSize(realSize);
-			 
-			int zz=0;		
-			while(!operatorsset.eof())
-			{
-				getline(operatorsset,s);
+	//				sscanner.str(s);
+	//				for(int k=0;k<order;k++)
+	//				{
+	//					sscanner>>curOperatorSet[k];//считываем n операторов вдоль маршрута
+	//				}
 
-				if(s.length()>0)
-				{
+	//				for(unsigned int k=0;k<nodeSets.size();k++)
+	//				{
 
-					std::cout<<order<<" "<<i<<" "<<j<<" zz="<<zz<<"\n";
+	//					for(int ll=0;ll<realSize;ll++)//очищаем выходные данные
+	//					{
+	//						wfOut1[ll].clear(nodeNum);
+	//						wfOut2[ll].clear(nodeNum);
+	//					}
+	//					
+	//					generate_procedure_order(nodeSets[k],curOperatorSet,edgeNum,order,procedureOrder,powerOrder);
 
-					zz++;
+	//					for(int ll=0;ll<realSize;ll++)//вычисляем хвосты. начало
+	//					{
+	//						ref1=&wfIn[ll];
+	//						ref2=&wfTemp1;
+	//						for(int mm=0;mm<(order+1)/2;mm++)
+	//						{
+	//							if(mm==(order+1)/2-1)//если остался последний шаг
+	//								ref2=&wfOut1[ll];
+	//							if(procedureOrder[mm]<=4)//выбираем процедуру
+	//							{
+	//								mainTransformer.act(*ref1, *ref2, curOperatorSet[mm], procedureOrder[mm], powerOrder[mm]);
+	//							}
+	//							else
+	//							{
+	//								mainTransformer.actInside(*ref1, *ref2, curOperatorSet[mm] - edgeNum, procedureOrder[mm], powerOrder[mm]);
+	//							}
+	//							if(ref2==&wfTemp1)
+	//							{
+	//								ref2=&wfTemp2;
+	//								ref1=&wfTemp1;
+	//								wfTemp2.clear(nodeNum);
+	//							}
+	//							else
+	//							if(ref2==&wfTemp2)
+	//							{
+	//								ref2=&wfTemp1;
+	//								ref1=&wfTemp2;
+	//								wfTemp1.clear(nodeNum);
+	//							}
+	//						}
+	//					}
 
-					sscanner.str(s);
-					for(int k=0;k<order;k++)
-					{
-						sscanner>>curOperatorSet[k];//считываем n операторов вдоль маршрута
-					}
+	//					///Вычисляем замыкающие хвосты
 
-					for(unsigned int k=0;k<nodeSets.size();k++)
-					{
+	//					for(int ll=0;ll<realSize;ll++)
+	//					{
+	//						ref1=&wfIn[ll];
+	//						ref2=&wfTemp1;
+	//						//для случая первого порядка просто копируем
+	//						if (order == 1)
+	//						{
+	//							mainTransformer.actCopy(wfIn[ll], wfOut2[ll]);
+	//						}
+	//						//для всех остальных порядков
+	//						for(int mm=order-1;mm>order-1-order/2;mm--)
+	//						{
+	//							if(mm==order-order/2)//если остался последний шаг
+	//								ref2=&wfOut2[ll];
+	//							
+	//							if (procedureOrder[mm] <= 4)
+	//							{
+	//								mainTransformer.act(*ref1, *ref2, curOperatorSet[mm], procedureOrder[mm], powerOrder[mm]);
+	//							}
+	//							else
+	//							{
+	//								mainTransformer.actInside(*ref1, *ref2, curOperatorSet[mm] - edgeNum, procedureOrder[mm], powerOrder[mm]);
+	//							}
+	//							
 
-						for(int ll=0;ll<realSize;ll++)//очищаем выходные данные
-						{
-							wfOut1[ll].clear(nodeNum);
-							wfOut2[ll].clear(nodeNum);
-						}
-						
-						generate_procedure_order(nodeSets[k],curOperatorSet,edgeNum,order,procedureOrder,powerOrder);
+	//							if(ref2==&wfTemp1)
+	//							{
+	//								ref2=&wfTemp2;
+	//								ref1=&wfTemp1;
+	//								wfTemp2.clear(nodeNum);
+	//							}else
+	//							if(ref2==&wfTemp2)
+	//							{
+	//								ref2=&wfTemp1;
+	//								ref1=&wfTemp2;
+	//								wfTemp1.clear(nodeNum);
+	//							}
+	//						}
+	//					}
 
-						for(int ll=0;ll<realSize;ll++)//вычисляем хвосты. начало
-						{
-							ref1=&wfIn[ll];
-							ref2=&wfTemp1;
-							for(int mm=0;mm<(order+1)/2;mm++)
-							{
-								if(mm==(order+1)/2-1)//если остался последний шаг
-									ref2=&wfOut1[ll];
-								if(procedureOrder[mm]<=4)//выбираем процедуру
-								{
-									mainTransformer.act(*ref1, *ref2, curOperatorSet[mm], procedureOrder[mm], powerOrder[mm]);
-								}
-								else
-								{
-									mainTransformer.actInside(*ref1, *ref2, curOperatorSet[mm] - edgeNum, procedureOrder[mm], powerOrder[mm]);
-								}
-								if(ref2==&wfTemp1)
-								{
-									ref2=&wfTemp2;
-									ref1=&wfTemp1;
-									wfTemp2.clear(nodeNum);
-								}
-								else
-								if(ref2==&wfTemp2)
-								{
-									ref2=&wfTemp1;
-									ref1=&wfTemp2;
-									wfTemp1.clear(nodeNum);
-								}
-							}
-						}
+	//					for(int x=0;x<realSize;x++)
+	//					{
+	//						for(int y=0; y<realSize;y++)
+	//						{
+	//							Results tmpres;
+	//								
+	//							tmpres.scalarProduct(wfOut1[x], wfOut2[y]);
 
-						///Вычисляем замыкающие хвосты
+	//							if(minus1(nodeSets[k],order)==-1)
+	//								tmpres.minus();
+	//							fullMatrix.add(x, y, tmpres);
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//					
+	//		//печать матрицы
+	//		//temp test
+	//		if (testMode)
+	//		{
+	//			std::string tmpStr = fileNamePrinter::getPathToResMatrixFiles(strType, order, i, j);
+	//			std::cout << "Output filename:" << tmpStr;
+	//		}
+	//		//end test
+	//		fullMatrix.printMatrix(fileNamePrinter::getPathToResMatrixFiles(strType, order, i, j),order);
+	//		operatorsset.close();
+	//	}
+	//}
 
-						for(int ll=0;ll<realSize;ll++)
-						{
-							ref1=&wfIn[ll];
-							ref2=&wfTemp1;
-							//для случая первого порядка просто копируем
-							if (order == 1)
-							{
-								mainTransformer.actCopy(wfIn[ll], wfOut2[ll]);
-							}
-							//для всех остальных порядков
-							for(int mm=order-1;mm>order-1-order/2;mm--)
-							{
-								if(mm==order-order/2)//если остался последний шаг
-									ref2=&wfOut2[ll];
-								
-								if (procedureOrder[mm] <= 4)
-								{
-									mainTransformer.act(*ref1, *ref2, curOperatorSet[mm], procedureOrder[mm], powerOrder[mm]);
-								}
-								else
-								{
-									mainTransformer.actInside(*ref1, *ref2, curOperatorSet[mm] - edgeNum, procedureOrder[mm], powerOrder[mm]);
-								}
-								
+	////finishing
+	//delete[] curOperatorSet;
+	//for (auto &elem : nodeSets)
+	//	delete[] elem;
 
-								if(ref2==&wfTemp1)
-								{
-									ref2=&wfTemp2;
-									ref1=&wfTemp1;
-									wfTemp2.clear(nodeNum);
-								}else
-								if(ref2==&wfTemp2)
-								{
-									ref2=&wfTemp1;
-									ref1=&wfTemp2;
-									wfTemp1.clear(nodeNum);
-								}
-							}
-						}
+	////if (termOrder != NULL) delete[] termOrder;
+	//delete [] wfIn;
+	//delete [] wfOut1;
+	//delete [] wfOut2;
 
-						for(int x=0;x<realSize;x++)
-						{
-							for(int y=0; y<realSize;y++)
-							{
-								Results tmpres;
-									
-								tmpres.scalarProduct(wfOut1[x], wfOut2[y]);
-
-								if(minus1(nodeSets[k],order)==-1)
-									tmpres.minus();
-								fullMatrix.add(x, y, tmpres);
-							}
-						}
-					}
-				}
-			}
-						
-			//печать матрицы
-			//temp test
-			if (testMode)
-			{
-				std::string tmpStr = fileNamePrinter::getPathToResMatrixFiles(strType, order, i, j);
-				std::cout << "Output filename:" << tmpStr;
-			}
-			//end test
-			fullMatrix.printMatrix(fileNamePrinter::getPathToResMatrixFiles(strType, order, i, j),order);
-			operatorsset.close();
-		}
-	}
-
-	//finishing
-	delete[] curOperatorSet;
-	for (auto &elem : nodeSets)
-		delete[] elem;
-
-	//if (termOrder != NULL) delete[] termOrder;
-	delete [] wfIn;
-	delete [] wfOut1;
-	delete [] wfOut2;
-
-	delete [] procedureOrder;
-	delete [] powerOrder;
+	//delete [] procedureOrder;
+	//delete [] powerOrder;
 
 	logfile.close();
 

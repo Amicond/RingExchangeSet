@@ -88,6 +88,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Andrew\Practice\!!!_5 RingExchange set\!_Code\SharedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,6 +118,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Andrew\Practice\!!!_5 RingExchange set\!_Code\SharedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,6 +155,7 @@
     <ClInclude Include="..\..\SharedFiles\globalConsts.h" />
     <ClInclude Include="..\..\SharedFiles\LadderOperator.h" />
     <ClInclude Include="..\..\SharedFiles\matrixNodes.h" />
+    <ClInclude Include="..\..\SharedFiles\NodeandDegree.h" />
     <ClInclude Include="..\..\SharedFiles\Point.h" />
     <ClInclude Include="..\..\SharedFiles\Route.h" />
     <ClInclude Include="..\..\SharedFiles\Term.h" />
@@ -175,8 +178,10 @@
     <ClCompile Include="..\..\SharedFiles\fileNamePrinter.cpp" />
     <ClCompile Include="..\..\SharedFiles\LadderOperator.cpp" />
     <ClCompile Include="..\..\SharedFiles\matrixNodes.cpp" />
+    <ClCompile Include="..\..\SharedFiles\NodeandDegree.cpp" />
     <ClCompile Include="..\..\SharedFiles\Point.cpp" />
     <ClCompile Include="..\..\SharedFiles\Route.cpp" />
+    <ClCompile Include="..\..\SharedFiles\RouteOperator.cpp" />
     <ClCompile Include="..\..\SharedFiles\Term.cpp" />
     <ClCompile Include="2 MainConveyor.cpp" />
     <ClCompile Include="JFactors.cpp" />

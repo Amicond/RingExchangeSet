@@ -188,6 +188,19 @@ void RouteOperator::print(std::ostream &out)
 	out << " ";
 }
 
+void RouteOperator::parse(std::string inp)
+{
+	int index;
+	std::istringstream inpParser;
+	std::string tmp;
+
+
+	index=inp.find_first_of(',');
+	tmp = inp.substr(0, index);
+	inpParser.str(tmp);
+	inpParser >> type;
+}
+
 int RouteOperator::getType()
 {
 	return type;

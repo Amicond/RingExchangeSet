@@ -25,9 +25,9 @@ struct inter
 struct extendedInter
 {
 	int operatorType; //should be consitent with extendedOperator consts
-	char plaquetsAmount;
-	char n[MaxPlaquetsPerInteraction];
-	char Jtype;
+	char plaquetsAmount; //amount of plaquets in current interaction: 2 or 4
+	char n[MaxPlaquetsPerInteraction]; //cells' numbers in state array
+	char Jtype; // 0-J1, 1-J2, 2-(J2-J1)
 };
 
 
@@ -54,10 +54,3 @@ void generate_procedure_order(int *termorder,int* operatororder,int edge_amount,
 
 
 
-class InteractionForPairMatrix
-{
-	static const int halfAmountOfInteractions;
-public:
-	static void getStatesByRow(int interNumber,int row, int &state1, int &state2);
-	static void getRowByStates(int interNumber, int state1, int state2, int &row);
-};

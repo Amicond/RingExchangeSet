@@ -317,26 +317,3 @@ void generate_procedure_order(int *termorder, int* operatororder, int edge_amoun
 
 
 
-////////////////////////////////////////  InteractionForPairMatrix ///////////////////////////////////////////////////////
-const int InteractionForPairMatrix::halfAmountOfInteractions = 4;
-
-
-void InteractionForPairMatrix::getStatesByRow(int interNumber, int row, int &state1, int &state2)
-{
-	state2 = row%DiffStates;
-	state1 = row / DiffStates;
-	if (interNumber > halfAmountOfInteractions)
-	{
-		std::swap(state1, state2);
-	}
-}
-
-void InteractionForPairMatrix::getRowByStates(int interNumber, int state1, int state2, int &row)
-{
-	if (interNumber > halfAmountOfInteractions)
-	{
-		std::swap(state1, state2);
-	}
-	row = state1*DiffStates + state2;
-}
-//////////////////////////////////////////////////////////////////////////

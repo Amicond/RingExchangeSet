@@ -69,9 +69,31 @@ void pairOperators::readMatrixAndEnergie()
 
 pairOperators::pairOperators()
 {
+	opMatrix = new double**[pairMatrixAmount];
+	for (int i = 0; i < pairMatrixAmount; i++)
+	{
+		opMatrix[i] = new double*[PairStates];
+		for (int j = 0; j < PairStates; j++)
+		{
+			opMatrix[i][j] = new double[PairStates];
+			for (int k = 0; k < PairStates; k++)
+			{
+				opMatrix[i][j][k] = 0;
+			}
+		}
+	}
 }
 
 
 pairOperators::~pairOperators()
 {
+}
+
+double pairOperators::getE0(int node_num) {
+	return Energie[0] * node_num; //singlet case
+}
+
+const double* pairOperators::getEnergiesOfStates()const
+{
+	return Energie;
 }

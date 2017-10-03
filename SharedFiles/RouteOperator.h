@@ -28,7 +28,8 @@ public:
 	void verticalAxisReflection();
 	void rotate180();
 	
-	//output
+	//input-output
+	void parse(std::string inp);
 	void print(std::ostream &out); //print "type,{{x1,y1},degree},{{x2,y2},degree} "
 
 	//operators
