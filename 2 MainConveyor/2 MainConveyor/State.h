@@ -5,7 +5,7 @@
 class State
 {
 	double factor; //числовой множитель
-	char coeff[JFactors::Npowers];  //степени коэффициентов J1,J2 и (J2-J1)
+	char coeff[JFactors::Npowers];  //coefficient powers. Names defined in "JFactors.cpp"
 	std::vector<char> states;// номера состояний из соответствующих плакетов
 
 public:
@@ -39,6 +39,8 @@ public:
 	void addToFactor(double addition);
 
 	void clear();
+
+	void print(std::ostream &out);
 
 	void addClusterState(int newStateNum);
 

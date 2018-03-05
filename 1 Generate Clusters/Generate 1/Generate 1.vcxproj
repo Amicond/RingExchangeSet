@@ -148,27 +148,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\SharedFiles\configReader.h" />
+    <ClInclude Include="..\..\SharedFiles\ExtendedRoute.h" />
     <ClInclude Include="..\..\SharedFiles\fileNamePrinter.h" />
     <ClInclude Include="..\..\SharedFiles\globalConsts.h" />
+    <ClInclude Include="..\..\SharedFiles\NodeandDegree.h" />
     <ClInclude Include="..\..\SharedFiles\Point.h" />
     <ClInclude Include="..\..\SharedFiles\Route.h" />
-    <ClInclude Include="ExtendedRoute.h" />
-    <ClInclude Include="NodeandDegree.h" />
-    <ClInclude Include="RouteOperator.h" />
+    <ClInclude Include="..\..\SharedFiles\RouteOperator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\SharedFiles\configReader.cpp" />
     <ClCompile Include="..\..\SharedFiles\Edge.cpp" />
+    <ClCompile Include="..\..\SharedFiles\ExtendedRoute.cpp" />
     <ClCompile Include="..\..\SharedFiles\fileNamePrinter.cpp" />
     <ClCompile Include="..\..\SharedFiles\matrixNodes.cpp" />
+    <ClCompile Include="..\..\SharedFiles\NodeandDegree.cpp" />
     <ClCompile Include="..\..\SharedFiles\Point.cpp" />
     <ClCompile Include="..\..\SharedFiles\Route.cpp" />
-    <ClCompile Include="ExtendedRoute.cpp" />
+    <ClCompile Include="..\..\SharedFiles\RouteOperator.cpp" />
     <ClCompile Include="Generate 1.cpp" />
-    <ClCompile Include="NodeandDegree.cpp" />
-    <ClCompile Include="RouteOperator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "JFactors.h"
 
+const std::string JFactors::coefficientNames[] = {"J1^","Q^","(-J1)^"};
 
+bool JFactors::isStringGenerated=false;
 
 bool JFactors::JFactor::operator==(const JFactor& jf2)const
 {
@@ -33,7 +35,6 @@ void JFactors::generate_all_Jfactors()
 		{
 			jfactors.push_back(JFactor(curJfac));
 		}
-
 	}
 }
 
@@ -41,10 +42,7 @@ void JFactors::generate_all_Jstrings()
 {
 	jstrings.clear();
 	bool not_first;
-	std::string js[Npowers];
-	js[0] = "J1^";
-	js[1] = "J2^";
-	js[2] = "(J2-J1)^";
+	
 	std::ostringstream out;
 	for (int i = 0; i<jfactors.size(); i++)
 	{
@@ -58,11 +56,12 @@ void JFactors::generate_all_Jstrings()
 					out << "*";
 				else
 					not_first = true;
-				out << js[j] << jfactors[i].powers[j];
+				out << coefficientNames[j] << jfactors[i].powers[j];
 			}
 		}
 		jstrings.push_back(out.str());
 	}
+	isStringGenerated = true;
 }
 
 void JFactors::setOrder(int ord)
@@ -102,6 +101,11 @@ std::string JFactors::getStringByNumber(int k)
 
 std::string JFactors::getStringByPowers(int powers[Npowers])
 {
+	if (!isStringGenerated)
+	{
+		generate_all_Jfactors();
+		generate_all_Jstrings();
+	}
 	return getStringByNumber(getNumberByPowers(powers));
 }
 

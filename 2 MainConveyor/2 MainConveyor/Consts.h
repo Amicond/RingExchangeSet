@@ -1,12 +1,16 @@
 #pragma once
 #include "stdafx.h"
 
+const bool DEBUG = false;
+
+
 const int N = 5;
 
 const std::string StrType[] = { "0","1","2" };
 
 const int SpinsInPlaquet = 4;
-const int MaxPlaquetsPerInteraction = 4;
+
+//in pair case 2 matrixes for Q and J interactions; in quatro case 2 matrixes for 2 terms
 const int OrtsAmount = 3;
 
 

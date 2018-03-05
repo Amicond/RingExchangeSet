@@ -60,12 +60,24 @@ void Results::scalarProduct(WaveFunction& wf1, WaveFunction& wf2)
 	i2 = 0;// указывает текущую группу
 	i1 = 0;// указывает текущую группу
 	int last1, last2;
+	//debug
+
+	std::ofstream outTest;
+	if (DEBUG&&DEBUGflag)
+		outTest.open("testOut22.txt", std::ios::out);
+
+	wf1.printWF(outTest);
+	outTest << "------------------------\n";
+	wf2.printWF(outTest);
+	outTest << "------------------------\n";
+	//enddebug
 
 	while ((i2<wf2.getEigenstatesAmount()) && (i1<wf1.getEigenstatesAmount()))
 	{
 
 		if (wf2.getEigenstateByNumber(i2) == wf1.getEigenstateByNumber(i1))//организуем суммирование
 		{
+
 			last1 = wf1.findLastGroup(i1);
 			last2 = wf2.findLastGroup(i2);
 			for (int i = i1; i <= last1; i++)
@@ -73,6 +85,13 @@ void Results::scalarProduct(WaveFunction& wf1, WaveFunction& wf2)
 				for (int j = i2; j <= last2; j++)
 				{
 					//складываем степени J-множителей
+					if (DEBUG&&DEBUGflag)
+					{
+						outTest.open("testOut22.txt", std::ios::app);
+						outTest << "i1=" << i << " " << "i2=" << j <<" ("<< (int)wf1.getEigenstateByNumber(i).getStateByNumber(0) << " " << (int)wf1.getEigenstateByNumber(i).getStateByNumber(1) << ") (" << (int)wf2.getEigenstateByNumber(j).getStateByNumber(0) << " " << (int)wf2.getEigenstateByNumber(j).getStateByNumber(1)<<")\n";
+						outTest.close();
+						std::cout<< "i1=" << i << " " << "i2=" << j << "\n";
+					}
 					for (int ttt = 0; ttt<JFactors::getAmountOfPowers(); ttt++)
 					{
 						tmpres[ttt] = wf1.getEigenstateByNumber(i).getPowerByNumber(ttt) + wf2.getEigenstateByNumber(j).getPowerByNumber(ttt);
@@ -94,4 +113,7 @@ void Results::scalarProduct(WaveFunction& wf1, WaveFunction& wf2)
 			i1 = 1 + wf1.findLastGroup(i1);
 		}
 	}
+	//debug
+	//outTest.close();
+	//end debug;
 }

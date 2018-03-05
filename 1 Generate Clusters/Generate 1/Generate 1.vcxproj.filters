@@ -36,16 +36,16 @@
     <ClInclude Include="..\..\SharedFiles\Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExtendedRoute.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RouteOperator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NodeandDegree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\SharedFiles\globalConsts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedFiles\RouteOperator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedFiles\ExtendedRoute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SharedFiles\NodeandDegree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,13 +74,13 @@
     <ClCompile Include="..\..\SharedFiles\Edge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExtendedRoute.cpp">
+    <ClCompile Include="..\..\SharedFiles\RouteOperator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RouteOperator.cpp">
+    <ClCompile Include="..\..\SharedFiles\ExtendedRoute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NodeandDegree.cpp">
+    <ClCompile Include="..\..\SharedFiles\NodeandDegree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

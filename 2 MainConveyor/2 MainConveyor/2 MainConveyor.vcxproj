@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -22,32 +22,32 @@
     <ProjectGuid>{060EBA15-D706-4BCF-838E-DF2206C9811D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My2MainConveyor</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -151,14 +151,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\SharedFiles\configReader.h" />
     <ClInclude Include="..\..\SharedFiles\Edge.h" />
+    <ClInclude Include="..\..\SharedFiles\ExtendedRoute.h" />
     <ClInclude Include="..\..\SharedFiles\fileNamePrinter.h" />
     <ClInclude Include="..\..\SharedFiles\globalConsts.h" />
-    <ClInclude Include="..\..\SharedFiles\LadderOperator.h" />
     <ClInclude Include="..\..\SharedFiles\matrixNodes.h" />
     <ClInclude Include="..\..\SharedFiles\NodeandDegree.h" />
     <ClInclude Include="..\..\SharedFiles\Point.h" />
     <ClInclude Include="..\..\SharedFiles\Route.h" />
-    <ClInclude Include="..\..\SharedFiles\Term.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="JFactors.h" />
     <ClInclude Include="MatrixOfResults.h" />
@@ -175,14 +174,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\SharedFiles\configReader.cpp" />
     <ClCompile Include="..\..\SharedFiles\Edge.cpp" />
+    <ClCompile Include="..\..\SharedFiles\ExtendedRoute.cpp" />
     <ClCompile Include="..\..\SharedFiles\fileNamePrinter.cpp" />
-    <ClCompile Include="..\..\SharedFiles\LadderOperator.cpp" />
     <ClCompile Include="..\..\SharedFiles\matrixNodes.cpp" />
     <ClCompile Include="..\..\SharedFiles\NodeandDegree.cpp" />
     <ClCompile Include="..\..\SharedFiles\Point.cpp" />
     <ClCompile Include="..\..\SharedFiles\Route.cpp" />
     <ClCompile Include="..\..\SharedFiles\RouteOperator.cpp" />
-    <ClCompile Include="..\..\SharedFiles\Term.cpp" />
     <ClCompile Include="2 MainConveyor.cpp" />
     <ClCompile Include="JFactors.cpp" />
     <ClCompile Include="MatrixOfResults.cpp" />

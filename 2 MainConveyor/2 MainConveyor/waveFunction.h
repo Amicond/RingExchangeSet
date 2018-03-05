@@ -28,6 +28,8 @@ public:
 
 	int findLastGroup(int startNumber);
 	void clear(int nodeNumVal);
+
+	void printWF(std::ostream &out);
 	WaveFunction();
 	~WaveFunction();
 };

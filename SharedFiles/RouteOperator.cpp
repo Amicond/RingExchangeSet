@@ -1,14 +1,17 @@
 #include "stdafx.h"
 #include "RouteOperator.h"
 
-const int RouteOperator::baseOperatorsAmount = 12;
-int RouteOperator::getAmountOfBaseOperators()
+const int RouteOperator::baseOperatorsAmount = 3;
+int RouteOperator::getAmountOfBaseOperators() 
 {
 	return baseOperatorsAmount;
 }
 
+
+
 RouteOperator::RouteOperator(int operatorType,Point startPoint)
 {
+	sorted = false;
 	Point shift;
 	if (operatorType > baseOperatorsAmount)
 		std::cout << "Warning!\n\n\n";
@@ -31,24 +34,8 @@ RouteOperator::RouteOperator(int operatorType,Point startPoint)
 		shift.set(0, 1);
 		this->addShift(shift + startPoint, 2);
 		break;
-	case 2:
-		//extended horisontal left
-		type = 0;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 2);
-		shift.set(-1, 0);
-		this->addShift(shift + startPoint, 2);
-		break;
-	case 3:
-		//extended vertical down
-		type = 1;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 2);
-		shift.set(0, -1);
-		this->addShift(shift + startPoint, 2);
-		break;
 
-	case 4:
+	case 2:
 		//extended diagonal up-right
 		type = 2;
 		shift.set(0, 0);
@@ -60,83 +47,11 @@ RouteOperator::RouteOperator(int operatorType,Point startPoint)
 		shift.set(1, 0);
 		this->addShift(shift+ startPoint, 1);
 		break;
-	case 5:
-		//extended diagonal up-left
-		type = 3;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 1);
-		shift.set(0, 1);
-		this->addShift(shift + startPoint, 1);
-		shift.set(-1, 1);
-		this->addShift(shift + startPoint, 1);
-		shift.set(-1, 0);
-		this->addShift(shift + startPoint, 1);
-		break;
-	case 6:
-		//extended diagonal down-left
-		type = 2;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 1);
-		shift.set(0, -1);
-		this->addShift(shift + startPoint, 1);
-		shift.set(-1, -1);
-		this->addShift(shift + startPoint, 1);
-		shift.set(-1, 0);
-		this->addShift(shift + startPoint, 1);
-		break;
-	case 7:
-		//extended diagonal down-right
-		type = 3;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 1);
-		shift.set(0, -1);
-		this->addShift(shift + startPoint, 1);
-		shift.set(1, -1);
-		this->addShift(shift + startPoint, 1);
-		shift.set(1, 0);
-		this->addShift(shift + startPoint, 1);
-		break;
-	
-	
-
-	case 8:
-		//simple diagonal up-right
-		type = 4;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 1);
-		shift.set(1, 1);
-		this->addShift(shift + startPoint, 1);
-		break;
-	case 9:
-		//simple diagonal up-left
-		type = 5;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 1);
-		shift.set(-1, 1);
-		this->addShift(shift + startPoint, 1);
-		break;
-	case 10:
-		//simple diagonal down-left
-		type = 4;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 1);
-		shift.set(-1, -1);
-		this->addShift(shift + startPoint, 1);
-		break;
-	case 11:
-		//simple diagonal down-right
-		type = 5;
-		shift.set(0, 0);
-		this->addShift(shift + startPoint, 1);
-		shift.set(1, -1);
-		this->addShift(shift + startPoint, 1);
-		break;
-	
 	
 	default:
 			type = -1;
 	}	
-	sort(this->shifts.begin(), this->shifts.end());
+	sortNodes();
 }
 
 RouteOperator::~RouteOperator()
@@ -145,6 +60,7 @@ RouteOperator::~RouteOperator()
 
 void RouteOperator::addShift(Point shift, int degree)
 {
+	sorted = false;
 	std::vector<NodeAndDegree>::iterator curElem;
 	for (curElem = shifts.begin(); curElem != shifts.end(); curElem++)
 		if (curElem->point == shift)
@@ -158,16 +74,34 @@ void RouteOperator::addShift(Point shift, int degree)
 		std::cout << curElem->point.getX() << " " << curElem->point.getY() << "\n";
 		std::cout << "Error add shift\n\n\n";
 	}
-
+	sortNodes();
 }
 
+
+void RouteOperator::sortNodes()
+{
+	if (sorted) return;
+	sort(shifts.begin(), shifts.end());
+	sorted = true;
+}
+
+//TODO REPLACE SORT FUNCTION
 void RouteOperator::moveToPoint(Point shiftingVector)
 {
+	sorted = false;
 	for (auto &elem : shifts)
 	{
 		elem.point = elem.point - shiftingVector;
 	}
-	sort(this->shifts.begin(), this->shifts.end());
+	sortNodes();
+}
+
+const std::vector<Point> RouteOperator::getPoints() const
+{
+	std::vector<Point> res;
+	for (auto &elem : shifts)
+		res.push_back(elem.point);
+	return res;
 }
 
 const std::vector<std::pair<Point, int>> RouteOperator::getDegreesOfPoints() const
@@ -178,7 +112,7 @@ const std::vector<std::pair<Point, int>> RouteOperator::getDegreesOfPoints() con
 	return res;
 }
 
-void RouteOperator::print(std::ostream &out)
+void RouteOperator::print(std::ostream &out) const
 {
 	out << type ;
 	for (auto &elem : shifts)
@@ -190,7 +124,10 @@ void RouteOperator::print(std::ostream &out)
 
 void RouteOperator::parse(std::string inp)
 {
+	sorted = false;
+	shifts.clear();
 	int index;
+	int nodeAmounts, x, y, degree;
 	std::istringstream inpParser;
 	std::string tmp;
 
@@ -199,40 +136,55 @@ void RouteOperator::parse(std::string inp)
 	tmp = inp.substr(0, index);
 	inpParser.str(tmp);
 	inpParser >> type;
+
+	if (type == 2 || type == 3)
+		nodeAmounts = 4;
+	else
+		nodeAmounts = 2;
+
+	for (int i = 0; i < nodeAmounts; i++)
+	{
+		inp = inp.substr(index + 3);
+		index = inp.find_first_of(',');
+		tmp = inp.substr(0, index);
+		inpParser.clear();
+		inpParser.str(tmp);
+		inpParser >> x;
+		inp = inp.substr(index + 1);
+		index = inp.find_first_of('}');
+		tmp = inp.substr(0, index);
+		inpParser.clear();
+		inpParser.str(tmp);
+		inpParser >> y;
+		inp = inp.substr(index+1);
+		index = inp.find_first_of('}');
+		tmp = inp.substr(0, index);
+		inpParser.clear();
+		inpParser.str(tmp);
+		inpParser >> degree;
+		inp = inp.substr(index);		
+		shifts.push_back(NodeAndDegree(Point(x, y), degree));
+	}
+	sortNodes();
 }
 
-int RouteOperator::getType()
+int RouteOperator::getType() const
 {
 	return type;
 }
 
 bool RouteOperator::operator==(const RouteOperator &second)const
 {
-	if (type == second.type)
+	if (type == second.type&&sorted==second.sorted&&sorted==true)
 	{
-		int size = shifts.size();
-		for (int i = 0; i < size; i++)
-			if (!(shifts[i] == second.shifts[i]))
-				return false;
-		return true;
+		if(std::mismatch(shifts.begin(), shifts.end(), second.shifts.begin()).first==shifts.end())
+			return true;
+		else
+			return false;
 	}
 	else
 		return false;
 }
-
-//bool RouteOperator::compare(const RouteOperator &second)const
-//{
-//	if (type == second.type)
-//	{
-//		int size = shifts.size();
-//		for (int i = 0; i < size; i++)
-//			if (!(shifts[i] == second.shifts[i]))
-//				return false;
-//		return true;
-//	}
-//	else
-//		return false;
-//}
 
 bool RouteOperator::operator<(const RouteOperator &second)const
 {
@@ -253,32 +205,18 @@ bool RouteOperator::operator<(const RouteOperator &second)const
 
 void RouteOperator::verticalAxisReflection() 
 {
-	switch (type)
-	{
-	case 2:
-		type = 3; break;
-	
-	case 3:
-		type = 2; break;
-	
-	
-	case 4:
-		type = 5; break;
-	case 5:
-		type = 4; break;
-
-	}
+	sorted = false;
 	for (auto &elem : shifts)
 		elem.point.transformMirrorY();
-	sort(shifts.begin(), shifts.end());
+	sortNodes();
 }
 
 void RouteOperator::rotate180()
 {
 	//type doesn't change
-
+	sorted = false;
 	for (auto &elem : shifts)
 		elem.point.transformRotate();
-	sort(shifts.begin(), shifts.end());
+	sortNodes();
 }
 

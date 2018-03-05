@@ -4,6 +4,20 @@
 
 ////////////////////  point   //////////////////////////////////////////////////////
 
+void ExtendedInter::clear()
+{
+	//this->
+	for (int i = 0; i < MaxMatrixPerInteraction; i++)
+	{
+		Jtype[i] = -1;
+		operatorType[i] = -1;
+	}
+	for (int i = 0; i < MaxPlaquetsPerInteraction; i++)
+		n[i] = -1;
+	plaquetsAmount = -1;
+}
+
+
 point::point(int x, int y)
 {
 	sx = x;
@@ -113,116 +127,6 @@ void eval_cur_route(int r[][2], int OrderLength, int RouteLength, std::vector<ed
 	RealLength = edges.size();
 }
 
-bool check_cur_operator_set(bool &Res, int OrderLength, int RealLength, int *termorder, int *operatorSet, std::vector<edge> edges)//проверяем можкт ли быть не 0 по данной конфигурации
-{
-	int start = 0;
-	int end;
-	int mask[10];
-	Res = true;
-	bool last = false;
-	bool ifFind;
-	std::vector<point> nodes;
-	point currentNode(0, 0);
-	for (int i = 0; i<OrderLength; i++)
-	{
-		if (i == OrderLength - 1)
-		{
-			end = i;
-			last = true;
-		}
-		if ((termorder[i] == 0) || (last == true))
-		{
-			end = i;//нашли группу
-			for (int j = 0; j<10; j++)
-				mask[j] = 0;
-			for (int j = start; j <= end; j++)
-			{
-				if ((unsigned int)operatorSet[j]<edges.size())//нашли ребро
-				{
-					currentNode.sx = edges[operatorSet[j]].x1; //выбираем его первую вершину
-					currentNode.sy = edges[operatorSet[j]].y1;
-					ifFind = false;
-					for (unsigned int k = 0; k<nodes.size(); k++)//ищем ее
-					{
-						if (nodes[k] == currentNode)//если нашли увеличиваем ее кол-во
-						{
-							mask[k]++;
-							ifFind = true;
-						}
-					}
-					if (!ifFind)//если не нашли добавляем
-					{
-						nodes.push_back(currentNode);
-						mask[nodes.size() - 1] = 1;
-					}
-
-					currentNode.sx = edges[operatorSet[j]].x2;//выбираем его 2ую вершину
-					currentNode.sy = edges[operatorSet[j]].y2;
-					ifFind = false;
-					for (unsigned int k = 0; k<nodes.size(); k++)//ищем ее
-					{
-						if (nodes[k] == currentNode)//если нашли увеличиваем ее кол-во
-						{
-							mask[k]++;
-							ifFind = true;
-						}
-					}
-					if (!ifFind)//если не нашли добавляем
-					{
-						nodes.push_back(currentNode);
-						mask[nodes.size() - 1] = 1;
-					}
-				}
-			}
-
-			for (int j = 0; j<OrderLength; j++)
-			{
-				if (mask[j] == 1)
-				{
-					Res = false;
-					break;
-				}
-			}
-
-			if (!Res)
-				break;
-			start = i + 1;
-		}
-		if (!Res)
-			break;
-	}
-	return Res;
-}
-
-void read_Route(int r[][2], std::istringstream &s)
-{
-	char c = ' ';
-	while (c != 'n')
-	{
-		s >> c;
-	}
-	s >> c;//пропускаем 1 символ
-	int num = 0;
-	while (N * 2 - 1 >= num)
-	{
-
-		s >> r[num][0];
-		s >> c;
-		s >> r[num][1];
-		num++;
-
-		s >> c;
-		s >> c;
-		s >> c;//пропускаем 3 символа
-		s >> r[num][0];
-		s >> c;
-		s >> r[num][1];
-		num++;
-		s >> c;
-		s >> c;
-	}
-
-}
 
 void generate_procedure_order(int *termorder, int* operatororder, int edge_amount, int num, int *Res, int *power)
 {

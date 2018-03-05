@@ -104,7 +104,7 @@ void genrateAllExtendedRoutes(std::vector<ExtendedRoute> &routes,ExtendedRoute &
 int main()
 {
 	//new version
-	int order = 5;
+	int order = 1;
 	std::vector<RouteOperator> allOperators;
 	std::vector<ExtendedRoute> allRoutes;
 	ExtendedRoute curRoute;

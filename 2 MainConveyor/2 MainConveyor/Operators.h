@@ -15,6 +15,7 @@ class Operators
 	std::vector<std::pair<int, double>> vMatrixInsideNonZero[DiffStates];
 public:
 	void readMatrixAndEnergie();
+	void readPairMatrixAndEnergie();
 	double getE0(int node_num);
 
 	double getMatrixElements(int spinNumber, int ort, int inState, int outState)const;

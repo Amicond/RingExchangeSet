@@ -144,9 +144,27 @@ void WaveFunction::clear(int nodeNumVal)
 	sorted = false;
 }
 
+void WaveFunction::printWF(std::ostream &out)
+{
+	int num = 0;
+	for (auto &state : eigenStates)
+	{
+		out << num++ << "  ";
+		state.print(out);
+		out <<"\n";
+	}
+}
+
 int WaveFunction::findLastGroup(int startNumber)//return the number of the last element equal to elem with startNumber											///Binary search may give better results in case of big groups, in large groups' amount case not obvious
 {
-	this->sortWF();
+	if (DEBUG && DEBUGflag && eigenStates.size()==53)
+	{
+		std::ofstream outputStream("outTest3.txt", std::ios::out);
+		this->printWF(outputStream);
+		this->sortWF();
+		this->printWF(outputStream);
+		outputStream.close();
+	}
 
 	int last = startNumber;
 	for (int i = startNumber + 1; i<eigenStates.size(); i++)

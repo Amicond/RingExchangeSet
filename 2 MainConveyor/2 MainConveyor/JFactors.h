@@ -6,6 +6,7 @@ class JFactors
 {
 public:
 	static const unsigned int Npowers = 3;
+	static const std::string coefficientNames[Npowers];
 private:
 	struct JFactor
 	{
@@ -20,6 +21,7 @@ private:
 	static std::vector<JFactor> jfactors;
 	static std::vector<std::string> jstrings;
 
+	static bool isStringGenerated;
 	static void generate_all_Jfactors();
 
 	static void generate_all_Jstrings();

@@ -19,14 +19,6 @@ std::string fileNamePrinter::gePathToMatrixes(std::string matrixPrefix,int verte
 	ostr << DirForMatrixInput << MatrixVersionPrefix << matrixPrefix << vertexNum<< ".txt";
 	return ostr.str();
 }
-
-std::string fileNamePrinter::gePathToPairMatrixes(std::string matrixName)
-{
-	std::ostringstream ostr;
-	ostr << DirForMatrixInput << MatrixVersionPrefix << matrixName << ".txt";
-	return ostr.str();
-}
-
 std::string fileNamePrinter::gePathToInsideMatrix()
 {
 	std::ostringstream ostr;
@@ -96,11 +88,20 @@ std::string fileNamePrinter::getPathToResMatrixFiles(std::string routeType,int c
 	ostr << DirForResultsFromStage2 << "results_" << routeType << Delimiter << currentOrder << "." << currenSubOrder << Delimiter << currentOrder << "_" << currenSubOrder << "_" << routeNum << "_res_" << routeType << ".txt";
 	return ostr.str();
 }
+
+//after stage 2.5
+std::string fileNamePrinter::getPathToSkipFiles(std::string routeType, int currentOrder, int currenSubOrder)
+{
+	std::ostringstream ostr;
+	ostr << DirForResultsFromStage25 << routeType << "_" << currentOrder << "_" << currenSubOrder << "skip.txt";
+	return ostr.str();
+}
+
 //output stage 3
 std::string fileNamePrinter::getFileNameOfMathematicaFile(int order,std::string pointName,int fileNum)
 {
 	std::ostringstream ostr;
-	ostr << "_" << order << "_results_J2=" << pointName << "(" << fileNum << ").txt";
+	ostr << "_" << order << "_results_"<<VariableName<<"=" << pointName << "(" << fileNum << ").txt";
 	return ostr.str();
 }
 std::string fileNamePrinter::getPathToMathematicaFiles(int order, std::string pointName, int fileNum)
@@ -117,22 +118,34 @@ std::string fileNamePrinter::getPathToMainMathematicaFiles(std::string pointName
 	return ostr.str();
 }
 
-std::string fileNamePrinter::getPathToMathematicaSolutionsFiles(std::string pointName,std::string routeType,int order,int subOrder,int routeNum)
+std::string fileNamePrinter::getPathToMathematicaSolutionsFiles(std::string pointName,std::string routeType,int order,int subOrder,int routeNum,bool mathematicaOutput)
 {
 	//relatve output
 	std::ostringstream ostr;
-	ostr << ".." << MathDelimiter <<".."<< MathDelimiter<< DirForSolutionsOnStage3 <<MathDelimiter<< pointName << MathDelimiter << "res"<<order << "_" << pointName << "general_math.txt";
+	std::string curDelimiter;
+	if (mathematicaOutput)
+	{
+		curDelimiter = MathDelimiter;
+		ostr << ".." << curDelimiter << ".." << curDelimiter << DirForSolutionsOnStage3 << curDelimiter;
+	}
+	else
+	{
+		curDelimiter = Delimiter;
+		ostr << DirForResultsFromStage3 << DirForSolutionsOnStage3 << curDelimiter;
+	}
+	ostr  <<  pointName << curDelimiter << "res" << routeType << "$" << order << "$" << subOrder << "$" << routeNum << "_" << pointName << ".txt";
+	
 	return ostr.str();
 }
 
 
 //output for systemSolving
-std::string fileNamePrinter::getPathToResOfSystemSolving(std::string curJ2Point, int curOrder,int curSuborder,int curRouteNum, std::string typeName)
-{
-	std::ostringstream ostr;
-	ostr << DirForResultsFromStage35 << curJ2Point << Delimiter << "res" << typeName << "$" << curOrder << "$" << curSuborder << "$" << curRouteNum << "_" << curJ2Point << ".txt";
-	return ostr.str();
-}
+//std::string fileNamePrinter::getPathToResOfSystemSolving(std::string curJ2Point, int curOrder,int curSuborder,int curRouteNum, std::string typeName)
+//{
+//	std::ostringstream ostr;
+//	ostr << DirForResultsFromStage35 << curJ2Point << Delimiter << "res" << typeName << "$" << curOrder << "$" << curSuborder << "$" << curRouteNum << "_" << curJ2Point << ".txt";
+//	return ostr.str();
+//}
 
 //output for stage 4, input for stage 5
 std::string fileNamePrinter::getPathToSumOfTermsNameByOrderAndPoint(std::string point, int order, int ladderOpAmount)

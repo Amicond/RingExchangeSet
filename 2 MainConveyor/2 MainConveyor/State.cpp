@@ -42,7 +42,6 @@ bool State::check(const State &s)
 
 bool State::operator==(const State &s) const //состояния равны если номера всех состояний равны
 {
-
 	if (states.size() != s.states.size()) return false;
 	for (int i = 0; i<states.size(); i++)
 		if (states[i] != s.states[i])
@@ -146,6 +145,26 @@ void State::clear()
 	for (int i = 0; i < JFactors::Npowers; i++)
 		coeff[i] = 0;
 	states.clear();
+}
+
+void State::print(std::ostream &out)
+{
+	int powers[JFactors::Npowers];//for char to int conversion
+	for (auto &stateNum : states)
+		out << (int)stateNum << " ";
+	out << ": ";
+	out << factor<<"*";
+	bool first = true;
+	for (int i = 0; i < JFactors::Npowers; i++)
+	{
+		if (coeff[i] != 0)
+		{
+			if (!first)
+				out << "*";
+			first = false;
+			out << JFactors::coefficientNames[i] << (int)coeff[i];
+		}
+	}
 }
 
 void State::addClusterState(int newStateNum)

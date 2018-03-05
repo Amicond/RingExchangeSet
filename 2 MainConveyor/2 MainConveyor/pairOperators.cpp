@@ -2,7 +2,9 @@
 #include "pairOperators.h"
 
 
-const std::string pairOperators::pairMatrixNames[] = { "SimpleVdiagULJ2MatrElems.txt","SimpleVdiagURJ2MatrElems.txt","SimpleVhorJ1MatrElems.txt","SimpleVhorJ2MatrElems.txt","SimpleVvertJ1MatrElems.txt","SimpleVvertJ2MatrElems.txt"};
+const std::string pairOperators::pairMatrixNames[] = {"MJhorDoubleTransition.txt","MJvertDoubleTransition.txt","MQhorDoubleTransition.txt","MQvertDoubleTransition.txt","MQhorQuatro1Transition.txt","MQhorQuatro2Transition.txt","MQvertQuatro1Transition.txt","MQvertQuatro2Transition.txt"};
+
+//{ "SimpleVdiagULJ2MatrElems.txt","SimpleVdiagURJ2MatrElems.txt","SimpleVhorJ1MatrElems.txt","SimpleVhorJ2MatrElems.txt","SimpleVvertJ1MatrElems.txt","SimpleVvertJ2MatrElems.txt"};
 //const int pairOperators::pairMatrixAmount = 6;
 
 int pairOperators::pairStatesToRow(int s1, int s2, bool inverseOrder)
@@ -35,13 +37,15 @@ void pairOperators::readMatrixAndEnergie()
 	for (int matrixNum = 0; matrixNum < pairMatrixAmount; matrixNum++)
 	{
 		s = fileNamePrinter::gePathToPairMatrixes(pairMatrixNames[matrixNum]);
+		
 		in.open(s.c_str(), std::ios::in);
+		
 		for (int j = 0; j < DiffStates*DiffStates; j++)
 		{
 			for (int k = 0; k < DiffStates*DiffStates; k++)
 			{
 				in >> opMatrix[matrixNum][j][k];
-				if (opMatrix[matrixNum][k] != 0)
+				if (opMatrix[matrixNum][j][k] != 0)
 					opMatrixNonZero[matrixNum][j].push_back(std::pair<int, double>(k, opMatrix[matrixNum][j][k]));
 			}
 		}

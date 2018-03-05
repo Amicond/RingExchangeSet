@@ -8,8 +8,8 @@ class pairOperators
 {
 public:
 	static const std::string pairMatrixNames[]; //array of names of operators that act on two plaquet simultaneously
-	//include J2-diag-UR, J2-diag-UL, J1-hor, J2-hor, J1-vert, J2-vert
-	static const int pairMatrixAmount = 6;//must be consistent with previous array
+	
+	static const int pairMatrixAmount = 8;//must be consistent with previous array
 
 	double Energie[DiffStates]; //Energie of plaquett's eigenstates
 
@@ -31,6 +31,10 @@ public:
 	static int pairStatesToRow(int s1, int s2,bool inverseOrder=false);
 	static void columnToPairStates(int column,int &s1, int &s2, bool inverseOrder = false);
 
+
+	//getters
+	const std::vector<std::pair<int, double>>& getNonZeroElements(int spinNumber, int ort, int inState)const;
+	const std::vector<std::pair<int, double>>& getNonZeroElementsInsideOperator(int inState)const;
 
 	pairOperators();
 	~pairOperators();

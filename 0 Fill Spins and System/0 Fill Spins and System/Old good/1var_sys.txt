@@ -1,0 +1,6 @@
+
+Sys1={{bp0bm0,bm0cp0,bm0dp0},
+{cm0bp0,cp0cm0,cm0dp0},
+{dm0bp0,dm0cp0,dp0dm0}};
+
+Var1={bm0cp0,bm0dp0,bp0bm0,cm0bp0,cm0dp0,cp0cm0,dm0bp0,dm0cp0,dp0dm0};

@@ -1,0 +1,6 @@
+points
+1
+Order
+4
+Mode (1-generate all orders from 1 to last, anything else - generate only last)
+1

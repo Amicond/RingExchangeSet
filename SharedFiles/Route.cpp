@@ -129,7 +129,6 @@ bool Route::ifShadow()//true- Значит уже встречалось в предыдущих порядках
 int Route::getDegrees(std::vector<int> &vertexDegree, std::vector<Point> &points)
 {
 	Point curPoint;
-	bool check;
 	for (auto &edge:edges)
 	{
 		curPoint.set(edge.getX1(), edge.getY1());
