@@ -13,6 +13,7 @@ std::string getSystemNumber(int size)
 {
 	switch (size)
 	{
+	case 2:	  return "1";
 	case 4:	  return "2";
 	case 8:   return "3";
 	case 16:  return "4";
@@ -20,6 +21,22 @@ std::string getSystemNumber(int size)
 	case 64:  return "6";
 	case 128: return "7";
 	case 256: return "8";
+	}
+}
+
+int getPlaquetsAmountByOrder(int order)
+{
+	switch (order)
+	{
+
+	case 1: return 2;
+	case 2: return 4;
+	case 3: return 5;
+	case 4: return 7;
+	case 5: return 8; 
+	default: std::cout<<"\n\n\n\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAalarm!!!\n\n\n\n";
+		std::cin >> order;
+
 	}
 }
 
@@ -153,7 +170,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 		math_out.open(fileNamePrinter::getPathToMainMathematicaFiles(my_points[jj],order), std::ios::out);
 	
-		std::ifstream sysIn(fileNamePrinter::getPathToSystems(order+1), std::ios::in);
+		std::ifstream sysIn(fileNamePrinter::getPathToSystems(getPlaquetsAmountByOrder(order)), std::ios::in);
 
 		while (!sysIn.eof())
 		{
@@ -197,7 +214,7 @@ int _tmain(int argc, _TCHAR* argv[])
 				skips.clear();
 				//readSkips(0, order, subOrder, skips);
 
-				if ((i == 1 && subOrder == 1) || (i>1)) //слагаемые с одним оператором возмущения есть только в первом порядке
+				//if ((i == 1 && subOrder == 1) || (i>1)) //слагаемые с одним оператором возмущения есть только в первом порядке
 				{
 					define_term(math_out, my_points[jj], 0, subOrder, i, total, out, term_amount, step,skips);
 				}

@@ -38,7 +38,7 @@ void transformPoints(int transformationType, std::vector<Point> &inpPoints, Poin
 		for (int i = 0; i < inpPoints.size(); i++)
 		{
 			outPoints.push_back(inpPoints[i]);
-			outPoints[i].transformMirrorY();
+			outPoints[i].transformMirrorX();
 			outPoints[i] = outPoints[i] - shift;
 		}
 		break;
@@ -46,7 +46,7 @@ void transformPoints(int transformationType, std::vector<Point> &inpPoints, Poin
 		for (int i = 0; i<inpPoints.size(); i++)
 		{
 			outPoints.push_back(inpPoints[i]);
-			outPoints[i].transformMirrorX();
+			outPoints[i].transformMirrorY();
 			outPoints[i] = outPoints[i] - shift;
 		}
 	}
@@ -63,37 +63,51 @@ void nodesToNumbers(int NNN, std::vector<Point> &curPoints, matrixNodes &matr, s
 	}
 }
 
-void generateAllVariants(int curOrder, ExtendedRoute &curentRoute, matrixNodes &matr, std::ofstream &out)
+void generateAllVariants(int curOrder, ExtendedRoute &curentRoute, matrixNodes &matr, std::ofstream &out, int symmetryType)
 {
 	std::vector<ExtendedRoute> sameShape;
 	ExtendedRoute work;
 	std::vector<std::vector<int>>  Nodes;
 	std::vector<Point> intitialPoints, transformedPoints;//точки начального маршрутов
+	std::vector<Point> routePoints;
 	std::vector<Point> shift;//преобразования сдвига для каждого маршрута
 	std::vector<int> rotate;//преобразование поворота
 	std::vector<int> degrees;//temp vector
 	std::vector<bool> ok;
-
+	Point previousPoint;
 	for (int i = 0; i<4; i++)
 	{
 		work.copy(curentRoute);
 		
 		switch (i)
 		{
-		case 1: work.rotate180(); break;
-		case 2: work.rotate180(); work.mirrorVerticalAxis(); break;
-		case 3: work.mirrorVerticalAxis(); break;
+			case 1: work.rotate180(); break;
+			case 2: work.rotate180(); work.mirrorVerticalAxis(); break;
+			case 3: work.mirrorVerticalAxis(); break;
 		}
-
-		intitialPoints.clear();
-		degrees.clear();
 		
-			
-		sameShape.push_back(work);
-		shift.push_back(Point(0,0));
-		rotate.push_back(i);
-		ok.push_back(true);
-			
+		work.evaluateRouteProperties(routePoints);
+		previousPoint = Point(0, 0);
+		if (symmetryType == 0)//add routes obtained oly by rotations and mirroring
+		{
+			sameShape.push_back(work);
+			shift.push_back(Point(0, 0));
+			rotate.push_back(i);
+			ok.push_back(true);
+		}
+		else if (symmetryType == 1) //add routes obtained by all possible transformations including shifts 
+		{
+			for (auto &curPoint : routePoints)
+			{
+				work.shiftPointToZero(curPoint - previousPoint);//shift back to initial Position and then new shift to next one
+				previousPoint = curPoint; //rember current shift 
+				sameShape.push_back(work);
+				shift.push_back(curPoint);
+				rotate.push_back(i);
+				ok.push_back(true);
+			}
+		} 
+			 
 	}
 	for (int i = 0; i<sameShape.size(); i++)
 		sameShape[i].sortOperators();
@@ -102,10 +116,20 @@ void generateAllVariants(int curOrder, ExtendedRoute &curentRoute, matrixNodes &
 		for (int j = i + 1; j<sameShape.size(); j++)
 		{
 			if (ok[i] && ok[j])
-				if (sameShape[i].operatorCompare(sameShape[j]))
+			{
+				//check it!
+				//std::cout << "Check\n" << "Check\n" << "Check\n" << "Check\n" << "Check\n" << "Check\n";
+				bool flag;
+				switch (symmetryType)
 				{
-					ok[j] = false;
-				}
+				case 0:
+					ok[j] = !sameShape[i].ifSameShape(sameShape[j]);
+					break;
+				case 1:
+					ok[j] = !sameShape[i].isEqual(sameShape[j]);
+					break;
+				}				
+			}
 		}
 
 	intitialPoints.clear();
@@ -150,9 +174,6 @@ void generateRouteOperators(ExtendedRoute curRoute, int OrderLength, int RouteLe
 	
 	std::vector<Point> nodes;
 	std::vector<int> amountOfNodes;
-	
-	
-	
 	
 	
 	std::vector<int> curOperatorNums;//Текущая расстановка операторов в слагаемом
@@ -221,12 +242,14 @@ void generateRouteOperators(ExtendedRoute curRoute, int OrderLength, int RouteLe
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int curOrder, subOrder, routeType;
+	int symmetryType;//0 - generate only different shape terms (for ladder analysis) or 1- all possible including shifts - for Spin operators analysis
 	std::string temp;
 	configReader myConfigReader;
 	myConfigReader.openConfigFile("conf.txt");
 	curOrder = myConfigReader.readIntWithHeader();
 	subOrder = myConfigReader.readNextInt();
 	routeType = myConfigReader.readNextInt();
+	symmetryType = myConfigReader.readIntWithHeader();
 	myConfigReader.closeConfig();
 	 
 	std::string type = TypeStr[routeType];
@@ -248,8 +271,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		out.open(fileNamePrinter::getPathToGeneralRoutesInfo(subOrder, type), std::ios::out);
 	}
 	
+	int routeNum=1;
 	while (!in.eof())
 	{
+		std::cout << "Route number: " << routeNum++ << "\n";
 		getline(in, s);
 		if (s.length()>0)
 		{
@@ -259,7 +284,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			if (curOrder == subOrder)
 			{
-				generateAllVariants(curOrder, curRoute, myMatrix, out);
+				generateAllVariants(curOrder, curRoute, myMatrix, out, symmetryType);
 			}
 				
 			std::ofstream outputFileForRoute(fileNamePrinter::getPathToRouteFile(curOrder,subOrder,count++,type), std::ios::out);
