@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#working dirs
+/2 MainConveyor Inst
+
 # User-specific files
 *.suo
 *.user
