@@ -119,6 +119,21 @@ void ExtendedRoute::mirrorVerticalAxis()
 		oper.verticalAxisReflection();
 }
 
+void ExtendedRoute::shiftPointToZero(Point newInitialPoint)
+{
+	sorted = false;
+	std::map<Point, int> newRouteNodes;
+	for (auto &elem : routeNodes)
+	{
+		newRouteNodes.insert(std::pair<Point, int>(elem.first - newInitialPoint,elem.second));
+	}
+	routeNodes = newRouteNodes;
+	for (auto &elem : operators)
+	{
+		elem.moveToPoint(newInitialPoint);
+	}
+}
+
 void ExtendedRoute::countRouteOperators(std::vector<RouteOperator> &uniqueOperators, std::vector<int> &uniqueOperatorsAmount, int &realOperatorsLength) const
 {
 	uniqueOperators.clear();
@@ -287,6 +302,7 @@ void ExtendedRoute::copy(const ExtendedRoute &origin)
 		operators.push_back(oper);
 }
 
+//two routes are comparable if they could be shifted to be identical
 bool ExtendedRoute::operatorCompare(const ExtendedRoute &secondRoute)
 {
 	if (operators.size() != secondRoute.operators.size()) return false;
@@ -318,3 +334,24 @@ bool ExtendedRoute::operatorCompare(const ExtendedRoute &secondRoute)
 	return false;
 }
 
+//two roots are equal if they are identical 
+bool ExtendedRoute::isEqual(ExtendedRoute &secondRoute) 
+{
+	if (operators.size() != secondRoute.operators.size()) return false;
+	
+	this->sortOperators();
+	secondRoute.sortOperators();
+	//direct comparison
+	
+	bool flag = true;
+	for (int i = 0; i < operators.size(); i++)
+	{
+		if (!(operators[i] == secondRoute.operators[i]))
+		{
+			flag = false;
+			break;
+		}
+	}
+	
+	return flag;
+}

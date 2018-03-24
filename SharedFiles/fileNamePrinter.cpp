@@ -155,6 +155,14 @@ std::string fileNamePrinter::getPathToSumOfTermsNameByOrderAndPoint(std::string 
 	return ostr.str();
 }
 
+//output for stage 4.5
+std::string fileNamePrinter::getPathToBilinearSeries(std::string point, int maxOrder)
+{
+	std::ostringstream ostr;
+	ostr << DirForResultsFromStage45 << point << Delimiter << "Bilinear_Order=" << maxOrder << "_results_" << point << ".txt";
+	return ostr.str();
+}
+
 //output for stage 5, final
 std::string fileNamePrinter::getPathToFourierTransformOfTermsNameByPoint(std::string point,  int ladderOpAmount)
 {

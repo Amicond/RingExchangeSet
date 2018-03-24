@@ -39,6 +39,9 @@ public:
 
 	//output name on stage 4
 	static std::string getPathToSumOfTermsNameByOrderAndPoint(std::string point, int order,int ladderOpAmount);
+
+	//output name on stage 4.4
+	static std::string getPathToBilinearSeries(std::string point, int maxOrder);
 	
 	//output name on stage 5
 	static std::string getPathToFourierTransformOfTermsNameByPoint(std::string point, int ladderOpAmount);

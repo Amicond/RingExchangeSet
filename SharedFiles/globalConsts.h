@@ -1,7 +1,11 @@
-//global consts identical to the whole pipeline
+ //global consts identical to the whole pipeline
 #ifndef GLOBALCONSTS_H
 #define GLOBALCONSTS_H
 
+ //for debug
+const bool DEBUG = false;
+const std::string testOutput= "test.txt";
+//main section
 const int RouteTypeAmount = 1;
 const int MaxOrder = 8;
 const int J1 = 1;
@@ -46,6 +50,7 @@ const std::string DirForSystemsOnStage3 = "Systems";
 const std::string DirForSolutionsOnStage3 = "Solutions";
 const std::string DirForResultsFromStage35 = ResultsFolder + "Stage3.5" + Delimiter;
 const std::string DirForResultsFromStage4 = ResultsFolder + "Stage4" + Delimiter;
+const std::string DirForResultsFromStage45 = ResultsFolder + "Stage4.5" + Delimiter;
 const std::string DirForResultsFromStage5 = ResultsFolder + "Stage5" + Delimiter;
 
 #endif // !GLOBALCONSTS_H

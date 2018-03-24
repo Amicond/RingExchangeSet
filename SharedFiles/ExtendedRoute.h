@@ -39,6 +39,7 @@ public:
 	//transformation
 	void rotate180();
 	void mirrorVerticalAxis();
+	void shiftPointToZero(Point newInitialPoint);//transform all points by rule: point -> point - newInitialPoint
 
 	//checking
 	bool ifSameShape(const ExtendedRoute &secondRoute);
@@ -47,6 +48,7 @@ public:
 	//
 	//bool operator==(const ExtendedRoute &secondRoute) const;
 	bool operatorCompare(const ExtendedRoute &secondRoute);
+	bool isEqual(ExtendedRoute &secondRoute);
 };
 
 #endif // !__EXTENDED_ROUTE_H__
