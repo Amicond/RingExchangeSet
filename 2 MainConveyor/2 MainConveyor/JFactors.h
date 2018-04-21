@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __J_FACTORS_H__
+#define __J_FACTORS_H__
 #include "stdafx.h"
 
 
@@ -38,4 +39,6 @@ public:
 
 	static int getAmountOfPowers();
 };
+
+#endif //__J_FACTORS_H__
 

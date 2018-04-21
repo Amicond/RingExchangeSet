@@ -59,7 +59,7 @@ void MatrixOfResults::printMatrix(std::string fname, int Order)
 			for (int kk = 0; kk<(Order + 2)*(Order + 1) / 2; kk++)
 			{
 
-				if (abs(matrix[ii][jj].getFactor(kk))>0.0000000000001)
+				if (fabs(matrix[ii][jj].getFactor(kk))>0.0000000000001)
 					matrixRes << matrix[ii][jj].getFactor(kk) << "*" << JFactors::getStringByNumber(kk) << "+";
 			}
 			if (jj<size - 1)

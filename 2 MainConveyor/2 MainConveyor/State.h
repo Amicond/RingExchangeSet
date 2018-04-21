@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __STATE_H__
+#define __STATE_H__
+
+
 #include "stdafx.h"
 #include "JFactors.h"
 
@@ -51,4 +54,6 @@ public:
 
 	~State();
 };
+
+#endif // !__STATE_H__
 

@@ -13,19 +13,35 @@ std::string fileNamePrinter::getPathToConfigFile()
 	return ostr.str();
 }
 
+
+
 std::string fileNamePrinter::gePathToMatrixes(std::string matrixPrefix,int vertexNum)
 {
 	std::ostringstream ostr;
 	ostr << DirForMatrixInput << MatrixVersionPrefix << matrixPrefix << vertexNum<< ".txt";
 	return ostr.str();
 }
-std::string fileNamePrinter::gePathToInsideMatrix()
+
+std::string fileNamePrinter::getPathToPairMatrixes(std::string matrixName)
 {
 	std::ostringstream ostr;
-	ostr << DirForMatrixInput << MatrixVersionPrefix << "inside_matr.txt";
+	ostr << DirForPairMatrixInput << PairMatrixVersionPrefix << matrixName;
 	return ostr.str();
 }
 
+std::string fileNamePrinter::gePathToJInsideMatrix()
+{
+	std::ostringstream ostr;
+	ostr << DirForMatrixInput << MatrixVersionPrefix << "J_inside_matr.txt";
+	return ostr.str();
+}
+
+std::string fileNamePrinter::gePathToQInsideMatrix()
+{
+	std::ostringstream ostr;
+	ostr << DirForPairMatrixInput  << "MQInsideTransition.txt";
+	return ostr.str();
+}
 std::string fileNamePrinter::gePathToEnergies()
 {
 	std::ostringstream ostr;

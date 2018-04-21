@@ -1,0 +1,6 @@
+Order
+4
+Number of operators in output term
+7
+Full Summation: 0 - if we sum only translationally differernt terms, 1 - if we sum all possible terms with Point(0,0)
+1

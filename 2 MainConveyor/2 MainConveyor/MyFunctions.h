@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __MY_fUNCTIONS_H__
+#define __MY_fUNCTIONS_H__
+
+
 #include "stdafx.h"
 #include "globalConsts.h"
 #include "Consts.h"
@@ -53,5 +56,5 @@ void eval_cur_route(int r[][2], int OrderLength, int RouteLength, std::vector<ed
 
 void generate_procedure_order(int *termorder,int* operatororder,int edge_amount,int num,int *Res,int *power);
 
-
+#endif // !__MY_fUNCTIONS_H__
 

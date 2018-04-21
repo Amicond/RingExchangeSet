@@ -38,7 +38,7 @@ void Operators::readMatrixAndEnergie()
 		}
 	}
 
-	in.open(fileNamePrinter::gePathToInsideMatrix().c_str(), std::ios::in);
+	in.open(fileNamePrinter::gePathToJInsideMatrix().c_str(), std::ios::in);
 	for (int i = 0; i<DiffStates; i++)
 		for (int j = 0; j<DiffStates; j++)
 		{
@@ -84,7 +84,7 @@ void  Operators::readPairMatrixAndEnergie()
 		}
 	}
 
-	in.open(fileNamePrinter::gePathToInsideMatrix().c_str(), std::ios::in);
+	in.open(fileNamePrinter::gePathToJInsideMatrix().c_str(), std::ios::in);
 	for (int i = 0; i<DiffStates; i++)
 		for (int j = 0; j<DiffStates; j++)
 		{
@@ -128,6 +128,7 @@ const std::vector<std::pair<int, double>>& Operators::getNonZeroElementsInsideOp
 {
 	return vMatrixInsideNonZero[inState];
 }
+
 
 const double* Operators::getEnergiesOfStates()const
 {

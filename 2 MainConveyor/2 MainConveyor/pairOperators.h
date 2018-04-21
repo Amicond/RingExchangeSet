@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef PAIROPERATORS_H
 #define PAIROPERATORS_H
 
@@ -19,13 +19,15 @@ public:
 	//double opMatrix[pairMatrixAmount][PairStates][PairStates];
 	//temp version
 	double ***opMatrix;
-	double opMatrixInside[DiffStates][DiffStates];
+	double opMatrixJInside[DiffStates][DiffStates];
+	double opMatrixQInside[DiffStates][DiffStates];
 
 	const double* getEnergiesOfStates()const;
 	double getE0(int node_num);
 
 	std::vector<std::pair<int, double>> opMatrixNonZero[pairMatrixAmount][PairStates];
-	std::vector<std::pair<int, double>> opMatrixInsideNonZero[DiffStates];
+	std::vector<std::pair<int, double>> opMatrixJInsideNonZero[DiffStates];
+	std::vector<std::pair<int, double>> opMatrixQInsideNonZero[DiffStates];
 
 	
 	static int pairStatesToRow(int s1, int s2,bool inverseOrder=false);
@@ -33,8 +35,9 @@ public:
 
 
 	//getters
-	const std::vector<std::pair<int, double>>& getNonZeroElements(int spinNumber, int ort, int inState)const;
-	const std::vector<std::pair<int, double>>& getNonZeroElementsInsideOperator(int inState)const;
+	//const std::vector<std::pair<int, double>>& getNonZeroElements(int spinNumber, int ort, int inState)const;
+	//const std::vector<std::pair<int, double>>& getNonZeroElementsJInsideOperator(int inState)const;
+	//const std::vector<std::pair<int, double>>& getNonZeroElementsQInsideOperator(int inState)const;
 
 	pairOperators();
 	~pairOperators();

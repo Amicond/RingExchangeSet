@@ -36,7 +36,7 @@ void pairOperators::readMatrixAndEnergie()
 	std::string s = "";
 	for (int matrixNum = 0; matrixNum < pairMatrixAmount; matrixNum++)
 	{
-		s = fileNamePrinter::gePathToPairMatrixes(pairMatrixNames[matrixNum]);
+		s = fileNamePrinter::getPathToPairMatrixes(pairMatrixNames[matrixNum]);
 		
 		in.open(s.c_str(), std::ios::in);
 		
@@ -52,13 +52,27 @@ void pairOperators::readMatrixAndEnergie()
 		in.close();	
 	}
 
-	in.open(fileNamePrinter::gePathToInsideMatrix().c_str(), std::ios::in);
+	in.open(fileNamePrinter::gePathToJInsideMatrix().c_str(), std::ios::in);
 	for (int i = 0; i<DiffStates; i++)
 		for (int j = 0; j<DiffStates; j++)
 		{
-			in >> opMatrixInside[i][j];
-			if (opMatrixInside[i][j] != 0)
-				opMatrixInsideNonZero[i].push_back(std::pair<int, double>(j, opMatrixInside[i][j]));
+			in >> opMatrixJInside[i][j];
+			if (opMatrixJInside[i][j] != 0)
+				opMatrixJInsideNonZero[i].push_back(std::pair<int, double>(j, opMatrixJInside[i][j]));
+		}
+	in.close();
+
+	//debug
+	std::string tmpStr1 = fileNamePrinter::gePathToQInsideMatrix();
+	//end debug
+	in.open(fileNamePrinter::gePathToQInsideMatrix().c_str(), std::ios::in);
+	
+	for (int i = 0; i<DiffStates; i++)
+		for (int j = 0; j<DiffStates; j++)
+		{
+			in >> opMatrixQInside[i][j];
+			if (opMatrixQInside[i][j] != 0)
+				opMatrixQInsideNonZero[i].push_back(std::pair<int, double>(j, opMatrixQInside[i][j]));
 		}
 	in.close();
 

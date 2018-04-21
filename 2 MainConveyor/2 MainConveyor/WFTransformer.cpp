@@ -454,7 +454,14 @@ void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int i
 
 
 						//increase J-factor/Q-factor
-						tmpState.incPower(curInterElem.Jtype[i]);
+						if (DEBUG_IMPORTANT_NOTES) std::cout << "\n Special case for J2=0 \n";
+						if(curInterElem.Jtype[i]!=2)
+							tmpState.incPower(curInterElem.Jtype[i]);
+						else
+						{
+							tmpState.incPower(0);
+							tmpState.multiplicateFactor(-1);
+						}
 
 						//change factor
 
@@ -475,8 +482,11 @@ void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int i
 							break;
 						}
 						if (flag)
-							//outWF.addEigenState(tmpState);
+						{	
 							intermediateStorage.push_back(tmpState);
+							//testMode
+							//std::cout << "inSt: " << inSt << "add\n";
+						}
 					}
 				}
 			}
@@ -583,20 +593,24 @@ void WFTransformer::actPairMatrix(WaveFunction& inWF, WaveFunction& outWF, int i
 			}
 		}
 	}
+	//testMode
+	std::cout << "  interWF size before collect: " << intermediateStorage.size()  << "\n";
 	if (intermediateStorage.size())
 		outWF.collect(intermediateStorage);
+	//testMode
+	std::cout << "  interWF size after collect: " << outWF.getEigenstatesAmount() << "\n";
 }
 
 void WFTransformer::actInside(WaveFunction& inWF, WaveFunction& outWF, int plaquetNumber, int type, int power)
 {
 	State currentInputState;//const state from 
-	State tempst(inWF.getNodesAmount()); //intermediate state
+	State tmpState(inWF.getNodesAmount()); //intermediate state
 
 	std::vector<std::pair<int, double>> currentNonZeroTransitions;//non-zero matrix elements of spin matrixes
 	std::vector<State> tempWF; //intermediate wavfunctions
 
 	double curE, E0;
-
+	
 	//initialisation
 	E0 = vOperator.getE0(inWF.getNodesAmount());
 
@@ -608,44 +622,59 @@ void WFTransformer::actInside(WaveFunction& inWF, WaveFunction& outWF, int plaqu
 
 		for (auto nonZeroElem: currentNonZeroTransitions)
 		{
-				tempst.copyStates(currentInputState);
-				tempst.setStateByNumber(plaquetNumber, nonZeroElem.first);
+			tmpState.copyStates(currentInputState);
+			tmpState.setStateByNumber(plaquetNumber, nonZeroElem.first);
 
-				curE = tempst.getEnergie(vOperator.getEnergiesOfStates());
+			curE = tmpState.getEnergie(vOperator.getEnergiesOfStates());
 
 				switch (type)
 				{
 				case 5:
 					if (E0 != curE)
 					{
-						tempst.setFactor(currentInputState.getFactor()*nonZeroElem.second);
+						tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second);
 
-						tempst.copyPowers(currentInputState);
-						tempst.incPower(indexOfInsideJOperator);
+						tmpState.copyPowers(currentInputState);
 
-						tempWF.push_back(tempst);
+						if (DEBUG_IMPORTANT_NOTES) std::cout << "\n Special case for J2=0 \n";
+						//start special case
+						tmpState.incPower(0);
+						tmpState.multiplicateFactor(-1);
+						//end special case
+
+						tempWF.push_back(tmpState);
 					}
 					break;
 				case 6:
 					if (E0 != curE)
 					{
-						tempst.setFactor(currentInputState.getFactor()*nonZeroElem.second/pow(E0-curE,power));
+						tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second/pow(E0-curE,power));
 
-						tempst.copyPowers(currentInputState);
-						tempst.incPower(indexOfInsideJOperator);
+						tmpState.copyPowers(currentInputState);
+						
+						if (DEBUG_IMPORTANT_NOTES) std::cout << "\n Special case for J2=0 \n";
+						//start special case
+						tmpState.incPower(0);
+						tmpState.multiplicateFactor(-1);
+						//end special case
 
-						tempWF.push_back(tempst);
+						tempWF.push_back(tmpState);
 					}
 					break;
 				case 7:
 					if (E0 == curE)
 					{
-						tempst.setFactor(currentInputState.getFactor()*nonZeroElem.second);
+						tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second);
 
-						tempst.copyPowers(currentInputState);
-						tempst.incPower(indexOfInsideJOperator);
+						tmpState.copyPowers(currentInputState);
+						
+						if (DEBUG_IMPORTANT_NOTES) std::cout << "\n Special case for J2=0 \n";
+						//start special case
+						tmpState.incPower(0);
+						tmpState.multiplicateFactor(-1);
+						//end special case
 
-						tempWF.push_back(tempst);
+						tempWF.push_back(tmpState);
 					}
 					break;
 				}
@@ -668,7 +697,7 @@ void WFTransformer::actInside(WaveFunction& inWF, WaveFunction& outWF, int plaqu
 void WFTransformer::actPairInside(WaveFunction& inWF, WaveFunction& outWF, int plaquetNumber, int type, int power)
 {
 	State currentInputState;//const state from 
-	State tempst(inWF.getNodesAmount()); //intermediate state
+	State tmpState(inWF.getNodesAmount()); //intermediate state
 
 	std::vector<std::pair<int, double>> currentNonZeroTransitions;//non-zero matrix elements of spin matrixes
 	std::vector<State> tempWF; //intermediate wavfunctions
@@ -684,51 +713,116 @@ void WFTransformer::actPairInside(WaveFunction& inWF, WaveFunction& outWF, int p
 		currentInputState = inWF.getEigenstateByNumber(inSt);
 		
 
-		for (auto nonZeroElem : pairOperator.opMatrixInsideNonZero[inWF.getEigenstateByNumber(inSt).getStateByNumber(plaquetNumber)])
+		for (auto nonZeroElem : pairOperator.opMatrixJInsideNonZero[inWF.getEigenstateByNumber(inSt).getStateByNumber(plaquetNumber)])
 		{
-			tempst.copyStates(currentInputState);
-			tempst.setStateByNumber(plaquetNumber, nonZeroElem.first);
+			tmpState.clear();
+			tmpState.copyStates(currentInputState);
+			tmpState.setStateByNumber(plaquetNumber, nonZeroElem.first);
 
-			curE = tempst.getEnergie(pairOperator.getEnergiesOfStates());
+			curE = tmpState.getEnergie(pairOperator.getEnergiesOfStates());
 
 			switch (type)
 			{
 			case 5:
 				if (E0 != curE)
 				{
-					tempst.setFactor(currentInputState.getFactor()*nonZeroElem.second);
+					tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second);
 
-					tempst.copyPowers(currentInputState);
-					tempst.incPower(indexOfInsideJOperator);
+					tmpState.copyPowers(currentInputState);
 
-					tempWF.push_back(tempst);
+					if (DEBUG_IMPORTANT_NOTES) std::cout << "\n Special case for J2=0 \n";
+					//start special case
+					tmpState.incPower(0);
+					tmpState.multiplicateFactor(-1);
+					//end special case
+
+					tempWF.push_back(tmpState);
 				}
 				break;
 			case 6:
 				if (E0 != curE)
 				{
-					tempst.setFactor(currentInputState.getFactor()*nonZeroElem.second / pow(E0 - curE, power));
+					tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second / pow(E0 - curE, power));
 
-					tempst.copyPowers(currentInputState);
-					tempst.incPower(indexOfInsideJOperator);
+					tmpState.copyPowers(currentInputState);
 
-					tempWF.push_back(tempst);
+					if (DEBUG_IMPORTANT_NOTES) std::cout << "\n Special case for J2=0 \n";
+					//start special case
+					tmpState.incPower(0);
+					tmpState.multiplicateFactor(-1);
+					//end special case
+
+					tempWF.push_back(tmpState);
 				}
 				break;
 			case 7:
 				if (E0 == curE)
 				{
-					tempst.setFactor(currentInputState.getFactor()*nonZeroElem.second);
+					tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second);
 
-					tempst.copyPowers(currentInputState);
-					tempst.incPower(indexOfInsideJOperator);
+					tmpState.copyPowers(currentInputState);
 
-					tempWF.push_back(tempst);
+					if (DEBUG_IMPORTANT_NOTES) std::cout << "\n Special case for J2=0 \n";
+					//start special case
+					tmpState.incPower(0);
+					tmpState.multiplicateFactor(-1);
+					//end special case
+
+					tempWF.push_back(tmpState);
 				}
 				break;
 			}
+		}
 
 
+		//Q-inside matrix
+		for (auto nonZeroElem : pairOperator.opMatrixQInsideNonZero[inWF.getEigenstateByNumber(inSt).getStateByNumber(plaquetNumber)])
+		{
+			tmpState.clear();
+			tmpState.copyStates(currentInputState);
+			tmpState.setStateByNumber(plaquetNumber, nonZeroElem.first);
+
+			curE = tmpState.getEnergie(pairOperator.getEnergiesOfStates());
+
+			switch (type)
+			{
+			case 5:
+				if (E0 != curE)
+				{
+					tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second);
+
+					tmpState.copyPowers(currentInputState);
+
+					tmpState.incPower(1);//Q-power
+
+					tempWF.push_back(tmpState);
+				}
+				break;
+			case 6:
+				if (E0 != curE)
+				{
+					tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second / pow(E0 - curE, power));
+
+					tmpState.copyPowers(currentInputState);
+
+					tmpState.incPower(1);
+					
+					tempWF.push_back(tmpState);
+				}
+				break;
+			case 7:
+				if (E0 == curE)
+				{
+					tmpState.setFactor(currentInputState.getFactor()*nonZeroElem.second);
+
+					tmpState.copyPowers(currentInputState);
+
+					tmpState.incPower(1);
+					
+					tempWF.push_back(tmpState);
+				}
+				break;
+			}
 		}
 	}
 	

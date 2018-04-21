@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 	
 	std::stringstream fname;
 	std::string fileNameString;
-	std::stringstream sscanner;
+	std::istringstream sscanner;
 
 	
 
@@ -128,14 +128,6 @@ int main(int argc, char* argv[])
 
 	
 
-	//test 
-	if (testMode)
-	{
-		std::cout << "Type: " << type << "\n";
-		std::cout << "Route nums: " << startRouteNum << " " << finRouteNum;
-	}
-	//end test
-	
 	confReader.openConfigFile(fileNamePrinter::getPathToConfigFile());
 	
 	///Error checking
@@ -155,11 +147,6 @@ int main(int argc, char* argv[])
 	//reading of route amounts of each type
 	confReader.readRouteAmounts(routesAmount, 1, N);
 	confReader.closeConfig();
-
-	if (testMode)
-	{
-		std::cout << "1.2 RoutesAmount: "<<routesAmount[1][2] << "\n";
-	}
 
 	//Init of arrays for numbers of procedure, and powers of denominators in perturbation series
 	procedureOrder = new int[order];
@@ -183,6 +170,7 @@ int main(int argc, char* argv[])
 		while (!terms.eof())
 		{
 			getline(terms, s);
+			sscanner.clear();
 			sscanner.str(s);
 			if (s.length() > 0)
 			{
@@ -196,10 +184,7 @@ int main(int argc, char* argv[])
 	
 	mainTransformer.pairOperator.readMatrixAndEnergie();
 
-	if (testMode)
-	{
-		std::cout << "E0 for 2 nodes: " << mainTransformer.pairOperator.getE0(2) << "\n";
-	}
+	if (testMode) std::cout << "E0 for 2 nodes: " << mainTransformer.pairOperator.getE0(2) << "\n";
 		
 	//Initializing input and output arrays of WF
 	vecAmount =  (int)pow((double)2, order+3);
@@ -241,6 +226,7 @@ int main(int argc, char* argv[])
 				std::cout << i1 << " " << i2 << " " << i3 << " \n";
 				return 0;
 			}
+
 			operatorsset.open(fileNamePrinter::getPathToRouteFile(order,i,j,strType), std::ios::in);
 			getline(operatorsset,s);
 			
@@ -258,13 +244,6 @@ int main(int argc, char* argv[])
 			}
 
 			//заполняем спины каждый раз
-			if (testMode)
-			{
-				auto ts = fileNamePrinter::getPathToSpinsOrder(nodeNum);
-				std::ifstream inStatesTemp(ts, std::ios::in);
-				int tmp;
-				inStatesTemp >> tmp;
-			}
 			std::ifstream inStates(fileNamePrinter::getPathToSpinsOrder(nodeNum), std::ios::in);
 			
 			int curState;
@@ -279,6 +258,7 @@ int main(int argc, char* argv[])
 					init.addClusterState(curState);
 				}
 				wfIn[i].addEigenState(init);
+									
 			}
 			inStates.close();
 			//конец заполнения спинов
@@ -301,13 +281,13 @@ int main(int argc, char* argv[])
 					std::cout<<order<<" "<<i<<" "<<j<<" zz="<<zz<<"\n";
 
 					zz++;
-
+					sscanner.clear();
 					sscanner.str(s);
 					for(int k=0;k<order;k++)
 					{
 						sscanner>>curOperatorSet[k];//считываем n операторов вдоль маршрута
 					}
-
+					
 					for(unsigned int k=0;k<nodeSets.size();k++)
 					{
 
@@ -335,6 +315,7 @@ int main(int argc, char* argv[])
 								{
 									mainTransformer.actPairInside(*ref1, *ref2, curOperatorSet[mm] - edgeNum, procedureOrder[mm], powerOrder[mm]);
 								}
+								
 								if(ref2==&wfTemp1)
 								{
 									ref2=&wfTemp2;
@@ -365,8 +346,10 @@ int main(int argc, char* argv[])
 							//для всех остальных порядков
 							for(int mm=order-1;mm>order-1-order/2;mm--)
 							{
-								if(mm==order-order/2)//если остался последний шаг
-									ref2=&wfOut2[ll];
+								if (mm == order - order / 2)//если остался последний шаг
+								{
+									ref2 = &wfOut2[ll];
+								}
 								
 								if (procedureOrder[mm] <= 4)
 								{
@@ -377,7 +360,6 @@ int main(int argc, char* argv[])
 									mainTransformer.actPairInside(*ref1, *ref2, curOperatorSet[mm] - edgeNum, procedureOrder[mm], powerOrder[mm]);
 								}
 								
-
 								if(ref2==&wfTemp1)
 								{
 									ref2=&wfTemp2;
@@ -393,14 +375,7 @@ int main(int argc, char* argv[])
 							}
 						}
 
-						/*if (DEBUG)
-						{
-							std::ofstream outTest("testOut.txt", std::ios::out);
-							wfOut1[0].printWF(outTest);
-							outTest << "------------\n";
-							wfOut2[3].printWF(outTest);
-							outTest.close();
-						}*/
+						
 
 						for (int i = 0; i < realSize; i++)
 						{
@@ -421,10 +396,12 @@ int main(int argc, char* argv[])
 									else
 										DEBUGflag = false;
 								}
+								
 								tmpres.scalarProduct(wfOut1[x], wfOut2[y]);
 
 								if(minus1(nodeSets[k],order)==-1)
 									tmpres.minus();
+								
 								fullMatrix.add(x, y, tmpres);
 							}
 						}
@@ -433,13 +410,6 @@ int main(int argc, char* argv[])
 			}
 						
 			//печать матрицы
-			//temp test
-			if (testMode)
-			{
-				std::string tmpStr = fileNamePrinter::getPathToResMatrixFiles(strType, order, i, j);
-				std::cout << "Output filename:" << tmpStr<<"\n";
-			}
-			//end test
 			fullMatrix.printMatrix(fileNamePrinter::getPathToResMatrixFiles(strType, order, i, j),order);
 			operatorsset.close();
 		}

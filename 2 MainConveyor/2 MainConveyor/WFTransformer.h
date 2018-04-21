@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __WF_TRANSFORMER_H__
+#define __WF_TRANSFORMER_H__
+
+
 
 #include "stdafx.h"
 #include "waveFunction.h"
@@ -33,7 +36,7 @@ public:
 
 	//pairMatrix set of functions
 	
-	void WFTransformer::returnPairVOperator(ExtendedInter &curExtendedInter, RouteOperator &curOperator, std::vector<Point> curRoutePoints);
+	void returnPairVOperator(ExtendedInter &curExtendedInter, RouteOperator &curOperator, std::vector<Point> curRoutePoints);
 	void setExtendedInteractions(ExtendedRoute curRoute);
 	
 	//void setPairInteractions(int nodeNumsOfEdges[][2], std::vector<edge> edges);
@@ -42,4 +45,6 @@ public:
 	void actPairInside(WaveFunction& inWF, WaveFunction& outWF, int plaquetNumber, int type, int power);
 
 };
+
+#endif // !__WF_TRANSFORMER_H__
 

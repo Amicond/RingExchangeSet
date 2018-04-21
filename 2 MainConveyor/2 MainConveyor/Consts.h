@@ -1,9 +1,6 @@
 #pragma once
 #include "stdafx.h"
 
-const bool DEBUG = false;
-
-
 const int N = 5;
 
 const std::string StrType[] = { "0","1","2" };

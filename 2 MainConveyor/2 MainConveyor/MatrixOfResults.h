@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MATRIX_OF_RESULTS_H__
+#define __MATRIX_OF_RESULTS_H__
 #include "stdafx.h"
 #include "JFactors.h"
 #include "MyFunctions.h"
@@ -22,3 +23,4 @@ public:
 
 	void printMatrix(std::string fname, int Order);
 };
+#endif __MATRIX_OF_RESULTS_H__

@@ -1,5 +1,9 @@
-#pragma once
+#ifndef __WAVE_FUNCTION_H__
+#define __WAVE_FUNCTION_H__
+
+
 #include "stdafx.h"
+#include "globalConsts.h"
 #include "Consts.h"
 #include "State.h"
 #include "Operators.h"
@@ -20,7 +24,7 @@ public:
 	void setNodesAmount(int nodesAmount);
 	int getNodesAmount()const;
 	unsigned int getEigenstatesAmount()const;
-	const State& WaveFunction::getEigenstateByNumber(int stateNumber)const;
+	const State& getEigenstateByNumber(int stateNumber)const;
 	void addEigenState(State newEigenstate);
 	void copyJPowers(const WaveFunction &wf);
 	void incJPower(int num);
@@ -33,4 +37,4 @@ public:
 	WaveFunction();
 	~WaveFunction();
 };
-
+#endif // !__WAVE_FUNCTION_H__

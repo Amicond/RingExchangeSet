@@ -1,0 +1,52 @@
+res0$1$1$1={{0.0625000000*Q^1+0,0,0,0.0625000000*Q^1+0},{0,0.0625000000*Q^1+0,0.0625000000*Q^1+0,0.0721687836*Q^1+0},{0,0.0625000000*Q^1+0,0.0625000000*Q^1+0,0.0721687836*Q^1+0},{0.0625000000*Q^1+0,0.0721687836*Q^1+0,0.0721687836*Q^1+0,0.1458333333*Q^1+0}}/.{J1->0.23,Q->1};
+If[Max[res0$1$1$1] != Min[res0$1$1$1],
+	Effres0$1$1$1=Expand[Chop[Solve[Sys2==res0$1$1$1,Var2]]];
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$1_0.23.txt"];
+	If[Length[Effres0$1$1$1]==0,Write[tt,"Problem withEffres0$1$1$1"];];
+	For[i = 1, i <= Length[Effres0$1$1$1[[1]]], i++,
+		 WriteString[tt,ScientificForm[Effres0$1$1$1[[1, i]], ExponentFunction -> (If[-100 < # < 10, Null, #] &)], "\n"]];
+	Close[tt];,
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$1_0.23.txt"];
+	Close[tt];
+];
+
+
+res0$1$1$2={{0.0625000000*Q^1+0,0,0,0.0625000000*Q^1+0},{0,0.0625000000*Q^1+0,0.0625000000*Q^1+0,-0.0721687836*Q^1+0},{0,0.0625000000*Q^1+0,0.0625000000*Q^1+0,-0.0721687836*Q^1+0},{0.0625000000*Q^1+0,-0.0721687836*Q^1+0,-0.0721687836*Q^1+0,0.1458333333*Q^1+0}}/.{J1->0.23,Q->1};
+If[Max[res0$1$1$2] != Min[res0$1$1$2],
+	Effres0$1$1$2=Expand[Chop[Solve[Sys2==res0$1$1$2,Var2]]];
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$2_0.23.txt"];
+	If[Length[Effres0$1$1$2]==0,Write[tt,"Problem withEffres0$1$1$2"];];
+	For[i = 1, i <= Length[Effres0$1$1$2[[1]]], i++,
+		 WriteString[tt,ScientificForm[Effres0$1$1$2[[1, i]], ExponentFunction -> (If[-100 < # < 10, Null, #] &)], "\n"]];
+	Close[tt];,
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$2_0.23.txt"];
+	Close[tt];
+];
+
+
+res0$1$1$3={{-1.5*(-J1),0*(-J1)},{0*(-J1),0.5*(-J1)}}/.{J1->0.23,Q->1};
+If[Max[res0$1$1$3] != Min[res0$1$1$3],
+	Effres0$1$1$3=Expand[Chop[Solve[Sys1==res0$1$1$3,Var1]]];
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$3_0.23.txt"];
+	If[Length[Effres0$1$1$3]==0,Write[tt,"Problem withEffres0$1$1$3"];];
+	For[i = 1, i <= Length[Effres0$1$1$3[[1]]], i++,
+		 WriteString[tt,ScientificForm[Effres0$1$1$3[[1, i]], ExponentFunction -> (If[-100 < # < 10, Null, #] &)], "\n"]];
+	Close[tt];,
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$3_0.23.txt"];
+	Close[tt];
+];
+
+
+res0$1$1$4={{1.25*Q,-0.433013*Q},{-0.433013*Q,0.75*Q}}/.{J1->0.23,Q->1};
+If[Max[res0$1$1$4] != Min[res0$1$1$4],
+	Effres0$1$1$4=Expand[Chop[Solve[Sys1==res0$1$1$4,Var1]]];
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$4_0.23.txt"];
+	If[Length[Effres0$1$1$4]==0,Write[tt,"Problem withEffres0$1$1$4"];];
+	For[i = 1, i <= Length[Effres0$1$1$4[[1]]], i++,
+		 WriteString[tt,ScientificForm[Effres0$1$1$4[[1, i]], ExponentFunction -> (If[-100 < # < 10, Null, #] &)], "\n"]];
+	Close[tt];,
+	tt = OpenWrite["..\\..\\Solutions\\0.23\\res0$1$1$4_0.23.txt"];
+	Close[tt];
+];
+
+

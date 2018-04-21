@@ -1,4 +1,8 @@
-#pragma once
+#ifndef __RESULTS_H__
+#define __RESULTS_H__
+
+
+#include "globalConsts.h"
 #include "Consts.h"
 #include "waveFunction.h"
 class Results
@@ -16,7 +20,8 @@ public:
 	void minus();
 
 	void scalarProduct(WaveFunction& wf1, WaveFunction& wf2);
+	void print(std::ostream &out);
 	Results();
 	~Results();
 };
-
+#endif // !__RESULTS_H__

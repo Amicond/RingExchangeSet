@@ -42,7 +42,7 @@ void WaveFunction::collect( WaveFunction &wf)
 		}
 		else
 		{
-			if (abs(eigenStates[index].getFactor()) <= 0.000000000000001)
+			if (fabs(eigenStates[index].getFactor()) <= 0.000000000000001)
 			{
 				eigenStates.pop_back();
 				--index;
@@ -69,7 +69,7 @@ void WaveFunction::collect(std::vector<State> &wf)
 		}
 		else
 		{
-			if (abs(eigenStates[index].getFactor()) <= 0.000000000000001)
+			if (fabs(eigenStates[index].getFactor()) <= 0.000000000000001)
 			{
 				eigenStates.pop_back();
 				--index;

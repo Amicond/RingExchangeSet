@@ -134,6 +134,20 @@ void sumTerms(int order, int ordernums[][RouteTypeAmount], std::string curPoint,
 						summator.addTerm(s,fullSummation);
 				}
 				resFile.close();
+
+				curRouteNum++;
+				summator.parseNewRoute(1);
+				curResFileName = fileNamePrinter::getPathToMathematicaSolutionsFiles(curPoint, TypeStr[type], order, subOrder, curRouteNum, false);
+				summator.parseNodes("i 0", true);
+				s = "";
+				resFile.open(curResFileName, std::ios::in);
+				while (!resFile.eof())
+				{
+					getline(resFile, s);
+					if (s.length() > 0)
+						summator.addTerm(s, fullSummation);
+				}
+				resFile.close();
 			}
 			subOrder++;
 			curRouteNum = 1;

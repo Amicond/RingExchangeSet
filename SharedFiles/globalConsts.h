@@ -2,8 +2,9 @@
 #ifndef GLOBALCONSTS_H
 #define GLOBALCONSTS_H
 
- //for debug
+//for debug
 const bool DEBUG = false;
+const bool DEBUG_IMPORTANT_NOTES = false;
 const std::string testOutput= "test.txt";
 //main section
 const int RouteTypeAmount = 1;
@@ -26,7 +27,7 @@ const std::string MathDelimiter = "\\\\";
 
 
 //directories for result files from different stages
-const std::string ProjectFolder="..\\..";
+const std::string ProjectFolder = ".." + Delimiter + "..";
 const std::string ResultsFolder = ProjectFolder+ Delimiter +"Results"+ Delimiter;
 const std::string InputDataFolder = ProjectFolder + Delimiter + "inputData" + Delimiter;
 

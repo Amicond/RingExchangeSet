@@ -6,7 +6,7 @@
 #include "configReader.h"
 #include "globalConsts.h"
 
-const bool DEBUG=true;
+//const bool DEBUG=true;
 
 
 std::string getSystemNumber(int size)
@@ -52,15 +52,84 @@ std::string printVariableNameOut(std::string routeType, int order, int subOrder,
 	return "Eff"+printVariableNameIn( routeType, order,subOrder,routeNum);
 }
 
+void addToMainFile(std::ofstream &math_out,std::string &curFileName)
+{
+	math_out << "nb1= NotebookOpen[StringJoin[{NotebookDirectory[], \"" << curFileName << "\"}]];\n";
+	math_out << "NotebookEvaluate[nb1];\n";
+	math_out << "NotebookClose[nb1];\n";
+}
+
+void addSystemToCurrentFile(std::ofstream &out,std::string &point,std::string variableNameIn, std::string variableNameOut,std::string valJ1, std::string valQ,std::string pathToSolutionFile, int size)
+{
+	out << "/.{J1->" << valJ1 << ",Q->" << valQ << "};\n";
+	out << "If[Max[" << variableNameIn << "] != Min[" << variableNameIn << "],\n";
+	out << "	" << variableNameOut << "=Expand[Chop[Solve[Sys";
+	out << getSystemNumber(size) << "==" << variableNameIn << ",Var" << getSystemNumber(size) << "]]];\n";
+	out << "	" << "tt = OpenWrite[\"" << pathToSolutionFile << "\"];\n";
+	out << "	" << "If[Length[" << variableNameOut << "]==0,Write[tt,\"Problem with" << variableNameOut << "\"];];\n";
+	out << "	" << "For[i = 1, i <= Length[" << variableNameOut << "[[1]]], i++,\n";
+	out << "	" << "	 WriteString[tt,";
+	out << "ScientificForm[" << variableNameOut << "[[1, i]], ";
+	out << "ExponentFunction -> (If[-100 < # < 10, Null, #] &)], \"\\n\"]";
+	out << "];\n";
+	out << "	" << "Close[tt];,\n";
+	out << "	" << "tt = OpenWrite[\"" << pathToSolutionFile << "\"];\n";
+	out << "	" << "Close[tt];\n";
+	out << "];\n\n\n";
+}
+
+std::string defineStringForInsideMatr(int type)
+{
+	std::string str;
+	std::ostringstream output;
+	std::ifstream inpFile;
+	double curVal;
+	std::string multiplier;
+	if (type == 1)
+	{
+		inpFile.open(fileNamePrinter::gePathToJInsideMatrix(), std::ios::in);
+		multiplier = "*(-J1)";
+	}
+	if (type == 2)
+	{
+		inpFile.open(fileNamePrinter::gePathToQInsideMatrix(), std::ios::in);
+		multiplier = "*Q";
+	}
+
+	std::istringstream inpStringParser;
+	output << "{{";
+
+	for (int i = 0; i <= 1; i++)
+	{
+		//read
+		getline(inpFile, str);
+		//prepare parser
+		inpStringParser.clear();
+		inpStringParser.str("");
+		//load to parse
+		inpStringParser.str(str);
+		for (int j = 0; j <= 1; j++)
+		{
+			inpStringParser >> curVal;
+			output << curVal << multiplier;
+			if (j != 1) output << ",";
+		}
+		output << "}";
+		if (i != 1) output << ",{";
+	}
+	output << "}";
+
+	return output.str();
+}
+
 void define_term(std::ofstream &math_out, std::string &point, int type, int order, int subOrder, int &total, std::ofstream &out, int term_amount[][RouteTypeAmount], int step,std::vector<int> skips)
 {
 	std::ostringstream fname, tmpStr;
 	std::ifstream cur_f;
-	std::string MatrixStr, routeType;
+	std::string MatrixStr, routeType,variableNameIn,variableNameOut;
 	int size;
 
-	//temp
-	std::string tFName;
+	routeType = std::to_string(type);
 
 	for (int j = 1; j <= term_amount[subOrder][type]; j++)
 	{
@@ -69,54 +138,81 @@ void define_term(std::ofstream &math_out, std::string &point, int type, int orde
 		if (total%step == 0)
 		{
 			out.close();
-			tFName = fileNamePrinter::getFileNameOfMathematicaFile(order, point, total / step);
-			std::cout << tFName << "\n";
 			//добавляем в авто файл
-			math_out << "nb1= NotebookOpen[StringJoin[{NotebookDirectory[], \"" << tFName << "\"}]];\n";
-			math_out << "NotebookEvaluate[nb1];\n";
-			math_out << "NotebookClose[nb1];\n";
+			addToMainFile(math_out, fileNamePrinter::getFileNameOfMathematicaFile(order, point, total / step));
 			//конец добавки
 			out.open(fileNamePrinter::getPathToMathematicaFiles(order, point, total / step) , std::ios::out);
 		}
 		
-		
-		routeType = std::to_string(type);
-		
-		//test version to obtain missed skips files
-		//if (find(skips.begin(), skips.end(), j) != skips.end()) //if curNum in skip  list then skip current iteration
-		//	continue;
+		//for new version
+		std::string pathToSolutionFile=fileNamePrinter::getPathToMathematicaSolutionsFiles(point, routeType, order, subOrder, j);
+		std::string valJ1 = point;
+		std::string valQ = "1";
+		//end new
 
 		cur_f.open(fileNamePrinter::getPathToResMatrixFiles(routeType,order,subOrder,j), std::ios::in);
-		
 		cur_f >> size;
-		tmpStr.str("");
-		tmpStr << "res" << routeType << "$" << order << "$" << subOrder << "$" << j;
-		out << printVariableNameIn(routeType, order, subOrder, j) << "=";
+		
+		variableNameIn = printVariableNameIn(routeType, order, subOrder, j);
+		variableNameOut = printVariableNameOut(routeType, order, subOrder, j);
+		out << variableNameIn << "=";
 		while (!cur_f.eof())
 		{
 			getline(cur_f, MatrixStr);
 			if (MatrixStr.length()>0)
 				out << MatrixStr;
 		}
-		out << "/.{J1->" << J1 << ",Q->" << point << "};\n";
-		out << "If[Max[" << printVariableNameIn(routeType, order, subOrder, j) << "] != Min[" << printVariableNameIn(routeType, order, subOrder, j) << "],\n";
-		out << "	" << printVariableNameOut(routeType, order, subOrder, j) << "=Expand[Chop[Solve[Sys";
+		cur_f.close();
 		
-		out << getSystemNumber(size) << "==" << tmpStr.str() << ",Var" << getSystemNumber(size) << "]]];\n";
+		addSystemToCurrentFile(out, point, variableNameIn, variableNameOut, valJ1, valQ, pathToSolutionFile, size);
+		/*out << "/.{J1->" << J1 << ",Q->" << point << "};\n";
+		out << "If[Max[" << variableNameIn << "] != Min[" << variableNameIn << "],\n";
+		out << "	" << variableNameOut << "=Expand[Chop[Solve[Sys";
+		out << getSystemNumber(size) << "==" << variableNameIn << ",Var" << getSystemNumber(size) << "]]];\n";
 		out << "	" << "tt = OpenWrite[\""<<  fileNamePrinter::getPathToMathematicaSolutionsFiles(point,routeType,order,subOrder,j) << "\"];\n";
-		out << "	" << "If[Length["<<printVariableNameOut(routeType,order,subOrder,j) << "]==0,Write[tt,\"" << order << " " << subOrder << " " << j << "\"];];\n";
-		out << "	" << "For[i = 1, i <= Length[" << printVariableNameOut(routeType, order, subOrder, j) << "[[1]]], i++,\n";
+		out << "	" << "If[Length["<< variableNameOut << "]==0,Write[tt,\"" << order << " " << subOrder << " " << j << "\"];];\n";
+		out << "	" << "For[i = 1, i <= Length[" << variableNameOut << "[[1]]], i++,\n";
 		out << "	" << "	 WriteString[tt,";
-		out << "ScientificForm[" << printVariableNameOut(routeType, order, subOrder, j) << "[[1, i]], ";
+		out << "ScientificForm[" << variableNameOut << "[[1, i]], ";
 		out << "ExponentFunction -> (If[-100 < # < 10, Null, #] &)], \"\\n\"]";
 		out << "];\n";
 		out << "	" << "Close[tt];,\n";
 		out << "	" << "tt = OpenWrite[\"" << fileNamePrinter::getPathToMathematicaSolutionsFiles(point, routeType, order, subOrder, j) << "\"];\n";
 		out << "	" << "Close[tt];\n";
-		out << "];\n\n\n";
-		cur_f.close();
+		out << "];\n\n\n";*/
+		
+	}
+	
+	if (order == 1 && subOrder == 1)
+	{
+		std::string valJ1 = point;
+		std::string valQ = "1";
+		size = 2;
+		std::string pathToSolutionFile;
+		int delta;
+
+		//Jinside
+		delta = 1;
+		pathToSolutionFile = fileNamePrinter::getPathToMathematicaSolutionsFiles(point, routeType, order, subOrder, term_amount[subOrder][type] + delta);
+		variableNameIn = printVariableNameIn(routeType, order, subOrder, term_amount[subOrder][type] + delta);
+		variableNameOut = printVariableNameOut(routeType, order, subOrder, term_amount[subOrder][type] + delta);
+		out << variableNameIn << "=";
+		out << defineStringForInsideMatr(delta);
+		addSystemToCurrentFile(out, point, variableNameIn, variableNameOut, valJ1, valQ, pathToSolutionFile, size);
+
+		//Qinside
+		delta = 2;
+		pathToSolutionFile = fileNamePrinter::getPathToMathematicaSolutionsFiles(point, routeType, order, subOrder, term_amount[subOrder][type] + delta);
+		variableNameIn = printVariableNameIn(routeType, order, subOrder, term_amount[subOrder][type] + delta);
+		variableNameOut = printVariableNameOut(routeType, order, subOrder, term_amount[subOrder][type] + delta);
+		out << variableNameIn << "=";
+		out << defineStringForInsideMatr(delta);
+		addSystemToCurrentFile(out, point, variableNameIn, variableNameOut, valJ1, valQ, pathToSolutionFile, size);
 	}
 }
+
+//read inside matrix and convert it to the results in first order
+
 
 void readSkips(int type,int order,int subOrder,std::vector<int> &skips)
 {
@@ -131,6 +227,9 @@ void readSkips(int type,int order,int subOrder,std::vector<int> &skips)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	//debug
+	//std::string output = defineStringForInsideMatr(1);
+	//end debug
 	const int J1 = 1;
 	std::vector<std::string> my_points;
 
@@ -217,6 +316,11 @@ int _tmain(int argc, _TCHAR* argv[])
 				//if ((i == 1 && subOrder == 1) || (i>1)) //слагаемые с одним оператором возмущения есть только в первом порядке
 				{
 					define_term(math_out, my_points[jj], 0, subOrder, i, total, out, term_amount, step,skips);
+				}
+
+				if (i == 1 && subOrder == 1) //слагаемые с одним оператором возмущения есть только в первом порядке
+				{
+
 				}
 								
 			}

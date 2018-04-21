@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __NODE_AND_DEGREE_H__
+#define __NODE_AND_DEGREE_H__
+
+
 #include "Point.h"
 class NodeAndDegree 
 {
@@ -14,3 +17,4 @@ public:
 	bool operator<(const NodeAndDegree &second)const;
 };
 
+#endif // !__NODE_AND_DEGREE_H__

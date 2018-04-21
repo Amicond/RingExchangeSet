@@ -117,3 +117,12 @@ void Results::scalarProduct(WaveFunction& wf1, WaveFunction& wf2)
 	//outTest.close();
 	//end debug;
 }
+
+void Results::print(std::ostream &out)
+{
+	for (int i = 0; i < ResAmount; i++)
+	{
+		out << "#" << i << "=" << factors[i] << " ";
+	}
+	out << "\n";
+}

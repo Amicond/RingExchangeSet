@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __ROUTE_OPERATOR_H__
+#define __ROUTE_OPERATOR_H__
+
+
 
 #include <map>
 #include "Point.h"
@@ -41,3 +44,4 @@ public:
 	/*bool compare(const RouteOperator &second)const;*/
 };
 
+#endif // !__ROUTE_OPERATOR_H__

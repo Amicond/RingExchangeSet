@@ -12,9 +12,9 @@ public:
 	matrixNodes();
 	~matrixNodes();
 
-	void matrixNodes::fillMatrix(int maxPlaquetDistance);
-	void matrixNodes::printMatrix();
-	void matrixNodes::printMatrixToFile(std::string fname);
+	void fillMatrix(int maxPlaquetDistance);
+	void printMatrix();
+	void printMatrixToFile(std::string fname);
 	int getElem(int i, int j);
 	int getSize();
 	int  ** getMatrix();

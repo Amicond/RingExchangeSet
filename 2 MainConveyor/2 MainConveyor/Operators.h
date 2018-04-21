@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __OPERTATORS_H__
+#define __OPERTATORS_H__
+
+
 #include "stdafx.h"
 #include "Consts.h"
 #include "fileNamePrinter.h"
@@ -28,4 +31,5 @@ public:
 	~Operators();
 	
 };
+#endif // !__OPERTATORS_H__
 
